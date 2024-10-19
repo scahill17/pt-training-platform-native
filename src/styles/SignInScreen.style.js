@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     elevation: 5, // Android Elevation
   },
   button: {
-    backgroundColor: "#407FDC",
+    backgroundColor: "#F2AE30",
     padding: 15,
     borderRadius: 15,
     marginTop: 10,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   linkText: {
-    color: "#007BFF", // Link color for "Register"
+    color: "#D9952D", // Link color for "Register"
     fontWeight: "bold",
   },
   

@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   tabBar: {
     height: 60,
     padding: 5,
-    backgroundColor: "#1e1e1e",
+    backgroundColor: "#1E1E1E",
   },
   tabIcon: {
     color: "#888888", // Default inactive color

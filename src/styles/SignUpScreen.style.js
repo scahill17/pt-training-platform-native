@@ -33,13 +33,13 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#ccc",
     borderRadius: 15,  // Larger border radius for rounded corners
     paddingVertical: 15,  // More padding for larger input boxes
     paddingHorizontal: 20,
     fontSize: 16,
     marginBottom: 25,  // More space between input fields
-    backgroundColor: "#fff",
+    backgroundColor: "#f0f0f0",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     elevation: 4, // For Android shadow
   },
   button: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "#F2AE30",
     borderRadius: 30, // More rounded button
     paddingVertical: 15,
     justifyContent: "center",
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   buttonText: {
-    color: "#fff",
+    color: "white",
     fontSize: 18,
     fontWeight: "bold",
   },

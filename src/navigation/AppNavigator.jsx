@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Text, View } from "react-native";
@@ -11,10 +11,22 @@ import Home from '../screens/HomeScreen';
 import Profile from '../screens/ProfileScreen';
 import Analytics from '../screens/AnalyticsScreen';
 import Training from '../screens/TrainingScreen';
+import AddWorkoutScreen from "../screens/AddWorkoutScreen";
+
 import styles from "../styles/MainTabs.style";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+// Create a separate stack navigator for the Training flow
+function TrainingStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Training" component={Training} options={{ headerShown: false }} />
+            <Stack.Screen name="AddWorkout" component={AddWorkoutScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+    );
+}
 
 function MainTabs() {
     return (
@@ -45,7 +57,6 @@ function MainTabs() {
                         </View>
                     );
                 },
-                // Apply different label styles based on focus state
                 tabBarLabel: ({ focused }) => {
                     return (
                         <Text style={focused ? styles.focusedTabLabel : styles.tabLabel}>
@@ -60,7 +71,8 @@ function MainTabs() {
             })}
         >
             <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Training" component={Training} />
+            {/* Use the TrainingStack instead of Training directly */}
+            <Tab.Screen name="Training" component={TrainingStack} />
             <Tab.Screen name="Analytics" component={Analytics} />
             <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
@@ -73,10 +85,6 @@ const AppNavigator = () => (
             <Stack.Screen name="Signin" component={SignInScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Signup" component={SignUpScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Training" component={Training} options={{ headerShown: false }} />
-            <Stack.Screen name="Analytics" component={Analytics} options={{ headerShown: false }} />
-            <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }} />
         </Stack.Navigator>
     </NavigationContainer>
 );

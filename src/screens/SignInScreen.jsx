@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { checkUserEmail } from "../api/api";
+import { checkUserEmail, fetchAthleteId } from "../api/api";
 import styles from "../styles/SignInScreen.style";
 import LoginModal from "../components/LoginModal";
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
@@ -19,12 +19,16 @@ export default function SignInScreen() {
     if (user) {
       try {
         // Store the user ID in AsyncStorage
-        await AsyncStorage.setItem("userId", String(user.id)); 
+        await AsyncStorage.setItem("userId", String(user.id));
 
-        // Navigate to Main screen after storing the userId
+        // Fetch the athlete ID using the user ID and store it in AsyncStorage
+        const athleteId = await fetchAthleteId(user.id);
+        await AsyncStorage.setItem("athleteId", String(athleteId));
+
+        // Navigate to Main screen after storing the userId and athleteId
         navigation.navigate("Main");
       } catch (error) {
-        console.error("Failed to save userId to storage", error);
+        console.error("Failed to save userId or athleteId to storage", error);
       }
     } else {
       setLoginFailed(true); // Show login failed modal if email validation fails

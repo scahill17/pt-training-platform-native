@@ -1,35 +1,37 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity, Modal } from "react-native";
-import { useNavigation } from "@react-navigation/native"; // Navigation hook for React Native
-import { checkUserEmail } from "../api/api"; // Ensure the correct path
-import styles from "../styles/SignInScreen.style"; // Import the styles
+import { View, Text, TextInput, TouchableOpacity, Modal } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { checkUserEmail } from "../api/api";
+import styles from "../styles/SignInScreen.style";
+import LoginModal from "../components/LoginModal";
 
 export default function SignInScreen() {
+  // State hooks for email, password, and login failure status
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // Although password doesn't matter
-  const [loginFailed, setLoginFailed] = useState(false); // To control modal visibility
+  const [password, setPassword] = useState("");
+  const [loginFailed, setLoginFailed] = useState(false);
 
-  const navigation = useNavigation(); // Correctly use the navigation hook for React Native
+  const navigation = useNavigation(); // Use navigation hook
 
+  // Handle login logic asynchronously
   const handleLogin = async () => {
-    const user = await checkUserEmail(email); // Check if the email exists
+    const user = await checkUserEmail(email); // Validate email
     if (user) {
-      // Store the logged-in user info in AsyncStorage or localStorage
-      // AsyncStorage.setItem("loggedInUser", JSON.stringify(user)); // Use AsyncStorage for React Native
-
-      // Navigate to MainTabs after login
+      // On successful login, navigate to the Main screen
       navigation.navigate("Main");
     } else {
-      // Email doesn't exist, show login failed modal
+      // Show login failed modal if email validation fails
       setLoginFailed(true);
     }
   };
 
+  // Render the login screen
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign in to your account</Text>
       <Text style={styles.subTitle}>Sign in or create your account</Text>
 
+      {/* Email Input */}
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -39,6 +41,7 @@ export default function SignInScreen() {
         autoCapitalize="none"
       />
 
+      {/* Password Input */}
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -48,10 +51,12 @@ export default function SignInScreen() {
       />
 
       <View style={styles.body}>
+        {/* Login Button */}
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
+        {/* Sign-up Navigation */}
         <TouchableOpacity
           style={styles.linkButton}
           onPress={() => navigation.navigate("Signup")}
@@ -62,20 +67,11 @@ export default function SignInScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Modal for login failure */}
-      <Modal visible={loginFailed} transparent={true} animationType="fade">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Login failed, please try again.</Text>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setLoginFailed(false)}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      {/* Login Failure Modal */}
+      <LoginModal
+        visible={loginFailed}
+        onClose={() => setLoginFailed(false)}
+      />
     </View>
   );
 }

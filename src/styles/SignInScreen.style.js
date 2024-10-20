@@ -1,27 +1,39 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  // Main container
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between',
+    backgroundColor: '#FFF',
   },
+
+  // Body content (align buttons at the bottom)
   body: {
     alignItems: "center", 
     flexGrow: 1, 
     justifyContent: "flex-end", 
-    paddingBottom:20,
+    paddingBottom: 20,
   },
+
+  // Title and Subtitle
   title: {
     paddingTop: 150,
     fontSize: 40,
     fontWeight: "bold",
+    color: "#333",
+    textAlign: "center",
   },
   subTitle: {
     fontSize: 20,
     fontWeight: "bold",
     paddingBottom: 40,
+    color: "#666",
+    textAlign: "center",
   },
+
+  // Text Input Styling
   input: {
     width: "100%",
     backgroundColor: "#f0f0f0",
@@ -35,86 +47,102 @@ const styles = StyleSheet.create({
       width: 1,  
       height: 3, 
     },
-    shadowOpacity: 0.25,   // Shadow transparency
-    shadowRadius: 3.84,    // Shadow blur radius
-    elevation: 5, // Android Elevation
+    shadowOpacity: 0.25,   
+    shadowRadius: 3.84,    
+    elevation: 5,
   },
+
+  // Button Styling
   button: {
     backgroundColor: "#F2AE30",
     padding: 15,
     borderRadius: 15,
     marginTop: 10,
-    width:"80%",
-    shadowColor: "#000", // Shadow color
+    width: "80%",
+    shadowColor: "#000", 
     shadowOffset: {
-      width: 1,  // Horizontal shadow offset
-      height: 3, // Vertical shadow offset
+      width: 1,  
+      height: 3, 
     },
-    shadowOpacity: 0.25,   // Shadow transparency
-    shadowRadius: 3.84,    // Shadow blur radius
-    elevation: 5, // Android Elevation
+    shadowOpacity: 0.25,   
+    shadowRadius: 3.84,    
+    elevation: 5,
   },
+
+  // Button Text Styling
   buttonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
+
+  // Bottom text (for the "Don't have an account?" message)
   bottomText: {
-    fontSize: 12, // Adjusted for better readability
+    fontSize: 12,
     padding: 10,
     fontWeight: "bold",
-    textAlign: "center", // Centered for better alignment
+    textAlign: "center",
+    color: "#666", 
   },
+
+  // Link button for "Register"
   linkButton: {
     marginTop: 10,
   },
+
+  // Link text styling
   linkText: {
-    color: "#D9952D", // Link color for "Register"
+    color: "#D9952D", 
     fontWeight: "bold",
   },
-  
+
   // Modal Styles
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
+
   modalContent: {
     width: '80%',
     backgroundColor: "white",
     borderRadius: 15,
     padding: 25,
     alignItems: "center",
-    shadowColor: "#000", // Add shadow for Android
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset for iOS
-    shadowOpacity: 0.3, // Shadow opacity
-    shadowRadius: 10, // Shadow blur radius
-    elevation: 10, // Elevation for Android
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 10,
   },
+
   modalText: {
     fontSize: 16,
     color: "#333",
     textAlign: 'center',
     marginBottom: 20,
   },
+
+  // Close button inside the modal
   closeButton: {
-    backgroundColor: "#407FDC",
+    backgroundColor: "#F2AE30",
     padding: 12,
     borderRadius: 10,
     marginTop: 10,
     width: "60%",
     alignItems: "center",
-    shadowColor: "#000", // Shadow color
+    shadowColor: "#000", 
     shadowOffset: {
       width: 1,  
       height: 3, 
     },
-    shadowOpacity: 0.25,   // Shadow transparency
-    shadowRadius: 3.84,    // Shadow blur radius
-    elevation: 5, // Android Elevation
+    shadowOpacity: 0.25,   
+    shadowRadius: 3.84,    
+    elevation: 5,
   },
+
   closeButtonText: {
     color: "white",
     fontWeight: "bold",

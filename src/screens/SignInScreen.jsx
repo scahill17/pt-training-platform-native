@@ -4,28 +4,33 @@ import { useNavigation } from "@react-navigation/native";
 import { checkUserEmail } from "../api/api";
 import styles from "../styles/SignInScreen.style";
 import LoginModal from "../components/LoginModal";
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 
 export default function SignInScreen() {
-  // State hooks for email, password, and login failure status
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginFailed, setLoginFailed] = useState(false);
 
-  const navigation = useNavigation(); // Use navigation hook
+  const navigation = useNavigation(); 
 
   // Handle login logic asynchronously
   const handleLogin = async () => {
     const user = await checkUserEmail(email); // Validate email
     if (user) {
-      // On successful login, navigate to the Main screen
-      navigation.navigate("Main");
+      try {
+        // Store the user ID in AsyncStorage
+        await AsyncStorage.setItem("userId", String(user.id)); 
+
+        // Navigate to Main screen after storing the userId
+        navigation.navigate("Main");
+      } catch (error) {
+        console.error("Failed to save userId to storage", error);
+      }
     } else {
-      // Show login failed modal if email validation fails
-      setLoginFailed(true);
+      setLoginFailed(true); // Show login failed modal if email validation fails
     }
   };
 
-  // Render the login screen
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign in to your account</Text>
@@ -68,10 +73,7 @@ export default function SignInScreen() {
       </View>
 
       {/* Login Failure Modal */}
-      <LoginModal
-        visible={loginFailed}
-        onClose={() => setLoginFailed(false)}
-      />
+      <LoginModal visible={loginFailed} onClose={() => setLoginFailed(false)} />
     </View>
   );
 }

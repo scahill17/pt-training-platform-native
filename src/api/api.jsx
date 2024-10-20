@@ -85,3 +85,45 @@ export async function checkUserEmail(email) {
         return null;
     }
 }
+
+
+// ------------ USER PROFILE ---------------- //
+export const fetchUserProfile = async (userId) => {
+    try {
+        console.log("user id: ", userId);
+        const response = await apiRequest(`athlete_details?user_id=eq.${userId}`);
+        console.log("response: ", response);
+        return response;
+    } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+    }
+};
+
+export const updateUserProfile = async (userId, userData) => {
+    try {
+        const response = await apiRequest(`users?id=eq.${userId}`, 'PATCH', userData);
+        return response;
+    } catch (error) {
+        console.error("Failed to update user profile:", error);
+        throw error;
+    }
+};
+
+export const updateAthleteProfile = async (userId, athleteData) => {
+    try {
+        const response = await apiRequest(`athletes?user_id=eq.${userId}`, 'PATCH', athleteData);
+        return response;
+    } catch (error) {
+        console.error("Failed to update athlete profile:", error);
+        throw error;
+    }
+};
+
+export const logoutUser = async () => {
+    try {
+        await AsyncStorage.removeItem("loggedInUser"); // Use AsyncStorage for React Native
+        console.log("User logged out successfully");
+    } catch (error) {
+        console.error("Error logging out:", error);
+    }
+};

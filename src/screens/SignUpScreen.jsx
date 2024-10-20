@@ -9,16 +9,16 @@ export default function SignUpScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirm_password, setConfirmPassword] = useState("");
   const [age, setAge] = useState("");
-  const [fitnessGoals, setFitnessGoals] = useState("");
-  const [medicalConditions, setMedicalConditions] = useState("");
+  const [fitness_goals, setFitnessGoals] = useState("");
+  const [medical_conditions, setMedicalConditions] = useState("");
 
   const navigation = useNavigation();
 
   // Handle Sign-Up logic
   const handleSignUp = async () => {
-    if (password !== confirmPassword) {
+    if (password !== confirm_password) {
       Alert.alert("Error", "Passwords don't match");
       return;
     }
@@ -27,8 +27,8 @@ export default function SignUpScreen() {
       name,
       email,
       age,
-      fitnessGoals,
-      medicalConditions,
+      fitness_goals,
+      medical_conditions,
     };
 
     try {
@@ -73,12 +73,12 @@ export default function SignUpScreen() {
           autoCapitalize: "none",
         })}
         {renderInputField("Password", password, setPassword, { secureTextEntry: true })}
-        {renderInputField("Confirm Password", confirmPassword, setConfirmPassword, {
+        {renderInputField("Confirm Password", confirm_password, setConfirmPassword, {
           secureTextEntry: true,
         })}
         {renderInputField("Age", age, setAge)}
-        {renderInputField("Fitness Goals", fitnessGoals, setFitnessGoals)}
-        {renderInputField("Medical Conditions", medicalConditions, setMedicalConditions)}
+        {renderInputField("Fitness Goals", fitness_goals, setFitnessGoals)}
+        {renderInputField("Medical Conditions", medical_conditions, setMedicalConditions)}
 
         {/* Sign-Up Button */}
         <TouchableOpacity style={styles.button} onPress={handleSignUp}>

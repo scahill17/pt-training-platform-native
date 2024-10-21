@@ -10,12 +10,12 @@ import styles from '../styles/WorkoutTable.style'; // Import your custom styles
  * @param {Function} setExercises - Function to update the exercises state
  * @param {Array} exercises - The array of exercises
  */
-const WorkoutTable = ({ exercise, index, setExercises, exercises }) => {
+const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, completedSets, toggleCheckBox }) => {
 
   // Handle change in the reps or weight for a specific set
   const handleTableChange = (setIndex, field, value) => {
     const updatedExercises = [...exercises];
-    updatedExercises[index][field][setIndex] = value;
+    updatedExercises[index][field][setIndex] = value; // Update reps or weight at specific set index
     setExercises(updatedExercises);
   };
 
@@ -46,6 +46,7 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises }) => {
         <Text style={styles.headerText}>Set</Text>
         <Text style={styles.headerText}>Reps</Text>
         <Text style={styles.headerText}>Weight</Text>
+        {showCheckBox && <Text style={styles.headerText}>Complete</Text>}
       </View>
 
       {/* Table Rows */}
@@ -54,14 +55,25 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises }) => {
           <Text style={styles.rowText}>{setIndex + 1}</Text>
           <TextInput
             style={styles.inputField}
-            value={exercise.reps[setIndex]}
+            value={exercise.reps[setIndex] ? exercise.reps[setIndex].toString() : ''}
             onChangeText={(text) => handleTableChange(setIndex, 'reps', text)}
+            keyboardType="numeric"
           />
           <TextInput
             style={styles.inputField}
-            value={exercise.weight[setIndex]}
+            value={exercise.weight[setIndex] ? exercise.weight[setIndex].toString() : ''}
             onChangeText={(text) => handleTableChange(setIndex, 'weight', text)}
+            keyboardType="numeric"
           />
+          {showCheckBox && (
+            <TouchableOpacity onPress={() => toggleCheckBox(setIndex)} style={styles.checkboxContainer}>
+              <Ionicons
+                name={completedSets[setIndex] ? 'checkbox' : 'square-outline'}
+                size={24}
+                color={completedSets[setIndex] ? '#F2AE30' : '#777'}
+              />
+            </TouchableOpacity>
+          )}
         </View>
       ))}
 

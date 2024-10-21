@@ -161,32 +161,36 @@ export const deleteWorkoutSession = async (athleteId, date) => {
 // Fetches full workout session details including exercises and sets
 export const fetchWorkoutSessionDetails = async (athleteId, date) => {
     try {
-        const sessionResponse = await apiRequest(`workout_sessions?athlete_id=eq.${athleteId}&date=eq.${date}`, 'GET');
-        if (!sessionResponse || sessionResponse.length === 0) throw new Error('Workout session not found');
-
-        const sessionId = sessionResponse[0].id;
-
-        const detailsResponse = await apiRequest(`workout_details?workout_session_id=eq.${sessionId}`, 'GET');
-
-        const exercises = await Promise.all(detailsResponse.map(async (detail) => {
-            const exerciseResponse = await apiRequest(`exercises?id=eq.${detail.exercise_id}`, 'GET');
-            const setsResponse = await apiRequest(`workout_sets?workout_detail_id=eq.${detail.id}`, 'GET');
-
-            return {
-                name: exerciseResponse[0].name,
-                instructions: detail.instructions,
-                sets: setsResponse.length,
-                reps: setsResponse.map(set => set.reps),
-                weight: setsResponse.map(set => set.weight),
-            };
-        }));
-
-        return { id: sessionId, exercises };
+      const sessionResponse = await apiRequest(`workout_sessions?athlete_id=eq.${athleteId}&date=eq.${date}`, 'GET');
+      
+      // If no session is found, return null instead of throwing an error
+      if (!sessionResponse || sessionResponse.length === 0) {
+        return null; // Return null instead of throwing an error
+      }
+  
+      const sessionId = sessionResponse[0].id;
+  
+      const detailsResponse = await apiRequest(`workout_details?workout_session_id=eq.${sessionId}`, 'GET');
+  
+      const exercises = await Promise.all(detailsResponse.map(async (detail) => {
+        const exerciseResponse = await apiRequest(`exercises?id=eq.${detail.exercise_id}`, 'GET');
+        const setsResponse = await apiRequest(`workout_sets?workout_detail_id=eq.${detail.id}`, 'GET');
+  
+        return {
+          name: exerciseResponse[0].name,
+          instructions: detail.instructions,
+          sets: setsResponse.length,
+          reps: setsResponse.map(set => set.reps),
+          weight: setsResponse.map(set => set.weight),
+        };
+      }));
+  
+      return { id: sessionId, exercises };
     } catch (error) {
-        console.error('Error fetching workout session details:', error);
-        throw error;
+      console.error('Error fetching workout session details:', error);
+      throw error; // Still throw an error if something unexpected happens
     }
-};
+  };  
 
 // Fetches available exercises
 export const fetchExercises = async () => apiRequest('exercises', 'GET');
@@ -210,12 +214,13 @@ export const fetchExerciseId = async (exerciseName) => {
 export const addNewExercise = async (exerciseName) => apiRequest('exercises', 'POST', { name: exerciseName });
 
 // Create a workout session
-export const saveWorkoutSession = async (athleteId, date) => {
+export const saveWorkoutSession = async (athleteId, date, completed = 'N') => {
     try {
       // Ensure athleteId is an integer and date is a string
       const requestBody = {
         athlete_id: athleteId,  // athleteId should be an integer
-        date: date              // date should be a string
+        date: date,              // date should be a string
+        completed: completed
       };
   
       // Create workout session

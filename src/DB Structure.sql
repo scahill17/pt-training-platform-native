@@ -36,7 +36,9 @@ CREATE TABLE api.workout_sessions (
     id SERIAL PRIMARY KEY,
     athlete_id INTEGER NOT NULL REFERENCES api.athletes(id) ON DELETE CASCADE,
     date DATE NOT NULL,
-    CONSTRAINT unique_athlete_workout_date UNIQUE (athlete_id, date)
+    completed CHAR(1) NOT NULL DEFAULT 'N',
+    CONSTRAINT unique_athlete_workout_date UNIQUE (athlete_id, date),
+    CONSTRAINT check_completed CHECK (completed IN ('Y', 'N'))
 );
 
 -- Table for workout details (exercises in a session)

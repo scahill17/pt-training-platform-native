@@ -12,6 +12,7 @@ import Profile from '../screens/ProfileScreen';
 import Analytics from '../screens/AnalyticsScreen';
 import Training from '../screens/TrainingScreen';
 import AddWorkoutScreen from "../screens/AddWorkoutScreen";
+import StartWorkoutScreen from "../screens/StartWorkoutScreen";
 
 import styles from "../styles/MainTabs.style";
 
@@ -22,11 +23,14 @@ const Stack = createStackNavigator();
 function TrainingStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Training" component={Training} options={{ headerShown: false }} />
+            {/* Rename this screen to avoid conflict */}
+            <Stack.Screen name="TrainingMain" component={Training} options={{ headerShown: false }} />
             <Stack.Screen name="AddWorkout" component={AddWorkoutScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
+
 
 function MainTabs() {
     return (

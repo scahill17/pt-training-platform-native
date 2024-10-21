@@ -76,10 +76,7 @@ export default function TrainingScreen() {
   };
 
   const handleStartSession = () => {
-    // Logic to start workout session
-    Alert.alert('Start Session', `Starting workout for ${selectedDate}`);
-    // You can navigate to a workout logging screen if available
-    // Example: navigation.navigate('StartWorkout', { athleteID: athleteId, date: selectedDate });
+    navigation.navigate('StartWorkout', { athleteID: athleteId, date: selectedDate });
   };
 
   return (

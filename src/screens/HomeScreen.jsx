@@ -6,7 +6,6 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
-      <Button title="Go to Workout" onPress={() => navigation.navigate('Workouts')} />
     </View>
   );
 }

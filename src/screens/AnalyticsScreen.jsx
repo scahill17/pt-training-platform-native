@@ -6,7 +6,6 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Analytics Screen</Text>
-      <Button title="Go to Details" onPress={() => navigation.navigate('Details')} />
     </View>
   );
 }

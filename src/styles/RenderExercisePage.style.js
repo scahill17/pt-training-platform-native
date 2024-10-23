@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: '#F2AE30',
-    height: 12, // Larger size for active dot
+    height: 12,
     width: 12,
   },
   inactiveDot: {

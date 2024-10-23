@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  // Main container
   container: {
     flex: 1,
     padding: 20,
@@ -9,7 +8,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
   },
 
-  // Body content (align buttons at the bottom)
   body: {
     alignItems: "center", 
     flexGrow: 1, 
@@ -17,7 +15,6 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 
-  // Title and Subtitle
   title: {
     paddingTop: 150,
     fontSize: 40,
@@ -33,7 +30,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  // Text Input Styling
   input: {
     width: "100%",
     backgroundColor: "#f0f0f0",
@@ -52,7 +48,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  // Button Styling
   button: {
     backgroundColor: "#F2AE30",
     padding: 15,
@@ -69,7 +64,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-  // Button Text Styling
   buttonText: {
     color: "white",
     fontSize: 16,
@@ -77,7 +71,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  // Bottom text (for the "Don't have an account?" message)
   bottomText: {
     fontSize: 12,
     padding: 10,
@@ -86,18 +79,15 @@ const styles = StyleSheet.create({
     color: "#666", 
   },
 
-  // Link button for "Register"
   linkButton: {
     marginTop: 10,
   },
 
-  // Link text styling
   linkText: {
     color: "#D9952D", 
     fontWeight: "bold",
   },
 
-  // Modal Styles
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -125,7 +115,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  // Close button inside the modal
   closeButton: {
     backgroundColor: "#F2AE30",
     padding: 12,

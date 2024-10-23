@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Icons replacement for FaPlus, FaMinus
-import styles from '../styles/WorkoutTable.style'; // Import your custom styles
+import { Ionicons } from '@expo/vector-icons';
+import styles from '../styles/WorkoutTable.style'
 
 /**
  * WorkoutTable component for React Native - Displays a table for an exercise with sets, reps, and weight

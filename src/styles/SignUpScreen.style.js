@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  // Main container with padding and centering
   container: {
     flexGrow: 1,
     justifyContent: "center",
@@ -10,20 +9,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  // Back button at the top left
   backButton: {
     position: "absolute",
     top: 80,
     left: 20,
   },
 
-  // Back button text styling
   backButtonText: {
     fontSize: 24,
     color: "#000",
   },
 
-  // Title styling
   title: {
     fontSize: 28,
     fontWeight: "bold",
@@ -32,7 +28,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
 
-  // Subtitle styling
   subTitle: {
     fontSize: 16,
     color: "#000",
@@ -41,7 +36,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  // Input field styling
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -58,7 +52,6 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
 
-  // Sign-up button styling
   button: {
     backgroundColor: "#F2AE30",
     borderRadius: 30,
@@ -69,7 +62,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
-  // Button text styling
   buttonText: {
     color: "white",
     fontSize: 16,

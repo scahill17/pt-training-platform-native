@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { checkUserEmail, fetchAthleteId } from "../api/api";
 import styles from "../styles/SignInScreen.style";
 import LoginModal from "../components/LoginModal";
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignInScreen() {
   const [email, setEmail] = useState("");

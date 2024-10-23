@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, Alert, ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import RenderExercisePage from '../components/RenderExercisePage'; // Custom component to render each exercise
-import styles from '../styles/StartWorkoutScreen.style'; // Style file
-import { fetchWorkoutSessionDetails, saveWorkoutSession, saveWorkoutDetails, deleteWorkoutSession } from '../api/api'; // Your existing API functions
+import RenderExercisePage from '../components/RenderExercisePage';
+import styles from '../styles/StartWorkoutScreen.style';
+import { fetchWorkoutSessionDetails, saveWorkoutSession, saveWorkoutDetails, deleteWorkoutSession } from '../api/api';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -31,21 +31,21 @@ export default function StartWorkoutScreen({ route }) {
 
   const handleAddSet = (exerciseIndex) => {
     const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].sets += 1; // Add one set
+    updatedExercises[exerciseIndex].sets += 1;
     setExercises(updatedExercises);
   };
 
   const handleRemoveSet = (exerciseIndex) => {
     const updatedExercises = [...exercises];
     if (updatedExercises[exerciseIndex].sets > 1) {
-      updatedExercises[exerciseIndex].sets -= 1; // Remove one set
+      updatedExercises[exerciseIndex].sets -= 1;
       setExercises(updatedExercises);
     }
   };
 
   const handleCompleteWorkout = async () => {
     try {
-      await deleteWorkoutSession(workoutSession.id); // Delete the existing workout session
+      await deleteWorkoutSession(workoutSession.id);
       const newSessionId = await saveWorkoutSession(athleteID, date, 'Y'); // Create a new session with completed = 'Y'
 
       for (const exercise of exercises) {
@@ -60,7 +60,7 @@ export default function StartWorkoutScreen({ route }) {
       }
 
       Alert.alert('Success', 'Workout session completed!');
-      navigation.navigate('Training'); // Navigate back to TrainingScreen
+      navigation.navigate('Training');
     } catch (error) {
       console.error('Error completing workout session:', error);
       Alert.alert('Error', 'Failed to complete workout session.');
@@ -74,7 +74,7 @@ export default function StartWorkoutScreen({ route }) {
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ width: screenWidth * (exercises.length + 1) }} // Full width for all exercises + done page
+          contentContainerStyle={{ width: screenWidth * (exercises.length + 1) }}
         >
           {exercises.map((exercise, index) => (
             <RenderExercisePage

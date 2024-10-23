@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { fetchExercises, addNewExercise, fetchExerciseId, saveWorkoutSession, saveWorkoutDetails, fetchWorkoutSessionId } from '../api/api';  // API calls
+import { fetchExercises, addNewExercise, fetchExerciseId, saveWorkoutSession, saveWorkoutDetails, fetchWorkoutSessionId } from '../api/api';
 import styles from '../styles/AddWorkoutScreen.style';
-import WorkoutTable from '../components/WorkoutTable';  // Workout table component
-import { Picker } from '@react-native-picker/picker';  // For the dropdown
+import WorkoutTable from '../components/WorkoutTable';
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
 export default function AddWorkoutScreen({ route }) {
@@ -103,7 +103,7 @@ export default function AddWorkoutScreen({ route }) {
       // Fetch the workout session ID after saving
       const workoutSessionId = await fetchWorkoutSessionId(athleteID, date);
   
-      // Now save the workout details (exercises)
+      // Save the workout details (exercises)
       await Promise.all(exercises.map(async (exercise) => {
         const exerciseId = await fetchExerciseId(exercise.name); // Get the correct ID for the exercise name
   

@@ -7,23 +7,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1E1E",
   },
   tabIcon: {
-    color: "#888888", // Default inactive color
+    color: "#888888",
   },
   focusedTabIcon: {
-    color: "#FFFFFF", // Active icon color
+    color: "#FFFFFF",
     transform: [{ translateY: -5 }],
   },
   tabLabel: {
-    color: "#888888", // Default inactive label color
+    color: "#888888",
     fontSize: 10,
-    fontWeight: "normal", // Normal weight for inactive tabs
-    transform: [{ translateY: -5 }], // Shift text upwards
+    fontWeight: "normal",
+    transform: [{ translateY: -5 }], 
   },
   focusedTabLabel: {
-    color: "#FFFFFF", // Active label color
+    color: "#FFFFFF", 
     fontSize: 10,
-    fontWeight: "bold", // Bold when focused
-    transform: [{ translateY: -5 }], // Shift text upwards
+    fontWeight: "bold",
+    transform: [{ translateY: -5 }],
   },
   focusedTabContainer: {
     backgroundColor: "#F2AE30",
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: -20, // Extend beyond the nav bar
-    position: 'absolute', // Position to float above the tab bar
-    top: -20, // Float over the tab bar
-    width: '100%', // Full width of the tab
-    height: 80, // Adjusted height for focus effect
+    marginBottom: -20, 
+    position: 'absolute', 
+    top: -20,
+    width: '100%', 
+    height: 80,
   },
   tabContainer: {
     justifyContent: "center",

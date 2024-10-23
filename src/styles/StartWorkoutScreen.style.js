@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   completeButton: {
-    backgroundColor: '#F2AE30', // Button color as per your request
+    backgroundColor: '#F2AE30',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,

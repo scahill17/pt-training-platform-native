@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { fetchUserProfile, updateUserProfile, updateAthleteProfile } from "../api/api"; // Use the new API function
+import { fetchUserProfile, updateUserProfile, updateAthleteProfile } from "../api/api";
 import styles from "../styles/ProfileScreen.Style";
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
-import { Ionicons } from '@expo/vector-icons'; // For the logout icon
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();

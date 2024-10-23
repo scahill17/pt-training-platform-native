@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native"; // Navigation hook for React Native
-import { addAthlete } from "../api/api"; // Ensure the correct path
-import styles from "../styles/SignUpScreen.style"; // Import the correct styles
+import { useNavigation } from "@react-navigation/native";
+import { addAthlete } from "../api/api";
+import styles from "../styles/SignUpScreen.style";
 
 export default function SignUpScreen() {
   // State management for form inputs

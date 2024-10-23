@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Use Ionicons for custom icons
-import WorkoutTable from '../components/WorkoutTable'; // Reuse the workout table component
-import styles from '../styles/RenderExercisePage.style'; // Style file
+import { Ionicons } from '@expo/vector-icons';
+import WorkoutTable from '../components/WorkoutTable';
+import styles from '../styles/RenderExercisePage.style';
 import { useNavigation } from '@react-navigation/native';
 
 export default function RenderExercisePage({ exercise, onAddSet, onRemoveSet, currentIndex, totalExercises }) {
   const [completedSets, setCompletedSets] = useState(
-    new Array(exercise.sets).fill(false) // Default state for checkboxes
+    new Array(exercise.sets).fill(false)
   );
 
-  const navigation = useNavigation(); // For back button functionality
+  const navigation = useNavigation();
 
   const toggleCheckBox = (index) => {
     const updatedCompletedSets = [...completedSets];
-    updatedCompletedSets[index] = !updatedCompletedSets[index]; // Toggle the checkbox
+    updatedCompletedSets[index] = !updatedCompletedSets[index];
     setCompletedSets(updatedCompletedSets);
   };
 
@@ -42,7 +42,7 @@ export default function RenderExercisePage({ exercise, onAddSet, onRemoveSet, cu
         <Ionicons name="chevron-back" size={30} color="black" />
       </TouchableOpacity>
 
-      {/* Page indicator (Dots) */}
+      {/* Page indicator */}
       {renderPageIndicator()}
 
       {/* Exercise title */}

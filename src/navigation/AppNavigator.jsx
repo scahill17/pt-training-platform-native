@@ -23,7 +23,6 @@ const Stack = createStackNavigator();
 function TrainingStack() {
     return (
         <Stack.Navigator>
-            {/* Rename this screen to avoid conflict */}
             <Stack.Screen name="TrainingMain" component={Training} options={{ headerShown: false }} />
             <Stack.Screen name="AddWorkout" component={AddWorkoutScreen} options={{ headerShown: false }} />
             <Stack.Screen name="StartWorkout" component={StartWorkoutScreen} options={{ headerShown: false }} />
@@ -75,7 +74,6 @@ function MainTabs() {
             })}
         >
             <Tab.Screen name="Home" component={Home} />
-            {/* Use the TrainingStack instead of Training directly */}
             <Tab.Screen name="Training" component={TrainingStack} />
             <Tab.Screen name="Analytics" component={Analytics} />
             <Tab.Screen name="Profile" component={Profile} />

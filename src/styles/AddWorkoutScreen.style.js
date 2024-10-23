@@ -4,25 +4,25 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
-    paddingTop: 70, // Add spacing at the top to push content down
+    paddingTop: 70,
     backgroundColor: '#fff',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#000',
-    textAlign: 'center', // Center the title
-    marginBottom: 20, // Add extra spacing below the title
+    textAlign: 'center', 
+    marginBottom: 20,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start', // Left align the date with back arrow
+    justifyContent: 'flex-start',
     marginBottom: 20,
   },
   backButton: {
     alignSelf: 'flex-start',
-    marginRight: 10, // Add spacing between the arrow and the date
+    marginRight: 10,
   },
   dateLabel: {
     fontSize: 16,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2AE30',
   },
   discardButton: {
-    backgroundColor: '#ccc', // Set discard button back to grey
+    backgroundColor: '#ccc',
   },
   buttonText: {
     textAlign: 'center',

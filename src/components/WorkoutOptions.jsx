@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Modal, Alert } from "react-native";
 import styles from "../styles/WorkoutOptions.style";
-import { deleteWorkoutSession } from "../api/api"; // Make sure you import your API call here
+import { deleteWorkoutSession } from "../api/api";
 
 export default function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
   // Handle delete session
@@ -16,7 +16,7 @@ export default function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
           {
             text: "Delete",
             onPress: async () => {
-              await deleteWorkoutSession(athleteId, date); // Call the delete API
+              await deleteWorkoutSession(athleteId, date);
               onDelete(); // Notify parent component to refresh data and close modal
             },
             style: "destructive",

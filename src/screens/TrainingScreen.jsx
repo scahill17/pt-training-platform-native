@@ -2,18 +2,18 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import CustomCalendar from "../components/CustomCalendar";
 import styles from "../styles/TrainingScreen.style";
-import { Ionicons } from "@expo/vector-icons"; // For the ellipsis and add icons
-import { fetchWorkoutSessionDetails } from "../api/api"; // API to fetch workout session details
-import WorkoutOptions from "../components/WorkoutOptions"; // Placeholder for WorkoutOptions component
+import { Ionicons } from "@expo/vector-icons";
+import { fetchWorkoutSessionDetails } from "../api/api";
+import WorkoutOptions from "../components/WorkoutOptions";
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TrainingScreen() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   const [workoutSession, setWorkoutSession] = useState(null);
-  const [isOptionsVisible, setIsOptionsVisible] = useState(false); // State to toggle WorkoutOptions visibility
+  const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [athleteId, setAthleteId] = useState(null); // Store athleteId from AsyncStorage
+  const [athleteId, setAthleteId] = useState(null);
 
   const navigation = useNavigation();
 

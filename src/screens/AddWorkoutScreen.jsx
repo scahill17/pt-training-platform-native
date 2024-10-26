@@ -6,6 +6,7 @@ import styles from '../styles/AddWorkoutScreen.style';
 import WorkoutTable from '../components/WorkoutTable';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
+import { Navigate } from 'react-router-dom';
 
 export default function AddWorkoutScreen({ route }) {
   const { athleteID, date } = route.params;
@@ -48,6 +49,12 @@ export default function AddWorkoutScreen({ route }) {
     } else {
       setNewExerciseIndexes(newExerciseIndexes.filter(i => i !== index));
     }
+  };
+
+  const handleInstructionsChange = (index, value) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[index].instructions = value;
+    setExercises(updatedExercises);
   };
 
   // Confirm adding a new exercise
@@ -122,6 +129,7 @@ export default function AddWorkoutScreen({ route }) {
       }));
   
       Alert.alert('Success', 'Workout session saved successfully!');
+      navigation.goBack();
     } catch (error) {
       console.error('Error saving workout session:', error);
       Alert.alert('Error', 'Failed to save the workout session.');
@@ -191,7 +199,7 @@ export default function AddWorkoutScreen({ route }) {
             style={styles.exerciseInput} // Matches the sign-in page styling
             placeholder="Exercise Instructions"
             value={exercise.instructions}
-            onChangeText={(value) => handleExerciseChange(index, value)}
+            onChangeText={(value) => handleInstructionsChange(index, value)}
           />
 
           {/* Workout Table */}

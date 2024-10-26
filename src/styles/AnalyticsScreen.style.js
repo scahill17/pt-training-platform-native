@@ -1,36 +1,47 @@
+// src/styles/AnalyticsScreen.style.js
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  scrollView: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-  },
   container: {
-    flex: 1,
-    alignItems: 'center',
-    paddingTop: 50,
-    paddingBottom: 40,
-    backgroundColor: '#fff',
-  },
-  centeredContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#fafafa',
+    flexGrow: 1,
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#333',
     textAlign: 'center',
-    marginBottom: 20,
+    marginTop: 50, // Adjusts positioning to be further down
+    marginBottom: 30,
   },
   errorText: {
     color: '#e74c3c',
     fontSize: 16,
     textAlign: 'center',
+    marginTop: 20,
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    width: '100%',  // Spreads buttons across screen width
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  toggleButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: '#e0e0e0',
+    marginHorizontal: 5,
+  },
+  activeButton: {
+    backgroundColor: '#F2AE30',
+  },
+  toggleText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });

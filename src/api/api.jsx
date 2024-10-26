@@ -283,7 +283,6 @@ export const saveWorkoutDetails = async (exerciseData) => {
   }
 };
 
-// Add this API function to your API calls file
 export const fetchWorkoutSessionId = async (athleteID, date) => {
   try {
     const response = await apiRequest(`workout_sessions?athlete_id=eq.${athleteID}&date=eq.${date}`, 'GET');
@@ -297,3 +296,134 @@ export const fetchWorkoutSessionId = async (athleteID, date) => {
     throw error;
   }
 };
+
+
+// ------------ ANALYTICS SCREEN ---------------- //
+export const fetchAthleteDetails = async () => apiRequest('athlete_details');
+
+export const fetchWorkoutTrends = async (athleteId) => apiRequest(`workout_trends?athlete_id=eq.${athleteId}`, 'GET');
+
+export const fetchExercisePerformance = async (athleteId, exerciseId) => apiRequest(`exercise_performance?athlete_id=eq.${athleteId}&exercise_id=eq.${exerciseId}`, 'GET');
+
+// Update the exercise performance stats after each workout session
+export const updateExercisePerformance = async (
+  athleteId,
+  exerciseId,
+  totalReps,
+  totalWeight,
+  averageReps,
+  averageWeight,
+  personalBestWeight,
+  personalBestReps
+) => {
+  try {
+      // Fetch existing performance data
+      const response = await apiRequest(
+          `exercise_performance?athlete_id=eq.${athleteId}&exercise_id=eq.${exerciseId}`,
+          'GET'
+      );
+      const existingData = response.length > 0 ? response[0] : null;
+
+      // Calculate new total sessions count
+      const newTotalSessions = existingData ? existingData.total_sessions + 1 : 1;
+
+      // Update average weight and reps calculations
+      const updatedAverageWeight = existingData
+          ? Math.floor(
+                ((existingData.average_weight * existingData.total_sessions) + averageWeight) / newTotalSessions
+            )
+          : Math.floor(averageWeight);
+
+      const updatedAverageReps = existingData
+          ? Math.floor(
+                ((existingData.average_reps * existingData.total_sessions) + averageReps) / newTotalSessions
+            )
+          : Math.floor(averageReps);
+
+      // Update personal bests
+      const updatedPersonalBestWeight =
+          existingData && existingData.personal_best_weight > personalBestWeight
+              ? existingData.personal_best_weight
+              : personalBestWeight;
+
+      const updatedPersonalBestReps =
+          existingData && existingData.personal_best_reps > personalBestReps
+              ? existingData.personal_best_reps
+              : personalBestReps;
+
+      // Update or insert exercise performance data
+      if (existingData) {
+          await apiRequest(`exercise_performance?id=eq.${existingData.id}`, 'PATCH', {
+              total_sessions: newTotalSessions,
+              average_weight: updatedAverageWeight,
+              average_reps: updatedAverageReps,
+              personal_best_weight: updatedPersonalBestWeight,
+              personal_best_reps: updatedPersonalBestReps,
+          });
+      } else {
+          await apiRequest('exercise_performance', 'POST', {
+              athlete_id: athleteId,
+              exercise_id: exerciseId,
+              total_sessions: newTotalSessions,
+              average_weight: updatedAverageWeight,
+              average_reps: updatedAverageReps,
+              personal_best_weight: updatedPersonalBestWeight,
+              personal_best_reps: updatedPersonalBestReps,
+          });
+      }
+  } catch (error) {
+      console.error('Error updating exercise performance:', error);
+      throw error;
+  }
+};
+
+
+// Update workout trends for the athlete after a completed session
+export const updateWorkoutTrends = async (athleteId, trendType, trendPeriod, totalWeight, totalReps) => {
+  try {
+    const response = await apiRequest(`workout_trends?athlete_id=eq.${athleteId}&trend_type=eq.${trendType}&trend_period=eq.${trendPeriod}`, 'GET');
+    const existingData = response.length > 0 ? response[0] : null;
+
+    const newTotalWorkouts = existingData ? existingData.total_workouts + 1 : 1;
+    const newTotalWeight = existingData ? existingData.total_weight + totalWeight : totalWeight;
+    const newAverageWeight = Math.floor(newTotalWeight / newTotalWorkouts);
+    const newAverageReps = existingData
+      ? Math.floor(((existingData.average_reps * existingData.total_workouts) + totalReps) / newTotalWorkouts)
+      : totalReps;
+
+    console.log("Updating workout trends:");
+    console.log("Athlete ID:", athleteId);
+    console.log("Trend Type:", trendType);
+    console.log("Trend Period:", trendPeriod);
+    console.log("Total Workouts:", newTotalWorkouts);
+    console.log("Total Weight:", newTotalWeight);
+    console.log("New Average Weight:", newAverageWeight);
+    console.log("New Average Reps:", newAverageReps);
+
+    if (existingData) {
+      await apiRequest(`workout_trends?id=eq.${existingData.id}`, 'PATCH', {
+        total_weight: newTotalWeight,
+        average_weight: newAverageWeight,
+        average_reps: newAverageReps,
+        total_workouts: newTotalWorkouts,
+        last_updated: new Date().toISOString()
+      });
+    } else {
+      await apiRequest('workout_trends', 'POST', {
+        athlete_id: athleteId,
+        trend_type: trendType,
+        trend_period: trendPeriod,
+        total_weight: newTotalWeight,
+        average_weight: newAverageWeight,
+        average_reps: newAverageReps,
+        total_workouts: newTotalWorkouts,
+        last_updated: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('Error updating workout trends:', error);
+    throw error;
+  }
+};
+
+

@@ -328,17 +328,17 @@ export const updateExercisePerformance = async (
       const newTotalSessions = existingData ? existingData.total_sessions + 1 : 1;
 
       // Update average weight and reps calculations
-      const updatedAverageWeight = existingData
-          ? Math.floor(
-                ((existingData.average_weight * existingData.total_sessions) + averageWeight) / newTotalSessions
-            )
-          : Math.floor(averageWeight);
-
       const updatedAverageReps = existingData
           ? Math.floor(
                 ((existingData.average_reps * existingData.total_sessions) + averageReps) / newTotalSessions
             )
           : Math.floor(averageReps);
+
+      const updatedAverageWeight = existingData
+          ? Math.floor(
+                (((existingData.average_weight * existingData.total_sessions) + averageWeight) / newTotalSessions) / updatedAverageReps
+            )
+          : Math.floor(averageWeight / updatedAverageReps);
 
       // Update personal bests
       const updatedPersonalBestWeight =
@@ -386,10 +386,10 @@ export const updateWorkoutTrends = async (athleteId, trendType, trendPeriod, tot
 
     const newTotalWorkouts = existingData ? existingData.total_workouts + 1 : 1;
     const newTotalWeight = existingData ? existingData.total_weight + totalWeight : totalWeight;
-    const newAverageWeight = Math.floor(newTotalWeight / newTotalWorkouts);
     const newAverageReps = existingData
       ? Math.floor(((existingData.average_reps * existingData.total_workouts) + totalReps) / newTotalWorkouts)
       : totalReps;
+    const newAverageWeight = Math.floor((newTotalWeight / newTotalWorkouts) / newAverageReps);
 
     console.log("Updating workout trends:");
     console.log("Athlete ID:", athleteId);

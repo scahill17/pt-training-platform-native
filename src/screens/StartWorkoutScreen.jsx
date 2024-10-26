@@ -98,7 +98,10 @@ export default function StartWorkoutScreen({ route }) {
       const monthPeriod = monthStart.toISOString().split('T')[0];
   
       // Update workout trends with consolidated totals
+      console.log("Updating weekly workout trends with total weight and reps:", totalWorkoutWeight, totalWorkoutReps);
       await updateWorkoutTrends(athleteID, 'weekly', weekPeriod, totalWorkoutWeight, totalWorkoutReps);
+      
+      console.log("Updating monthly workout trends with total weight and reps:", totalWorkoutWeight, totalWorkoutReps);
       await updateWorkoutTrends(athleteID, 'monthly', monthPeriod, totalWorkoutWeight, totalWorkoutReps);
   
       Alert.alert('Success', 'Workout session completed!');
@@ -108,6 +111,7 @@ export default function StartWorkoutScreen({ route }) {
       Alert.alert('Error', 'Failed to complete workout session.');
     }
   };
+  
 
   return (
     <View style={styles.container}>

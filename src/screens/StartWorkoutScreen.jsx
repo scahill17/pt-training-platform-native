@@ -94,15 +94,9 @@ export default function StartWorkoutScreen({ route }) {
       weekStart.setDate(currentDate.getDate() - currentDate.getDay());
       const weekPeriod = weekStart.toISOString().split('T')[0];
   
-      const monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      const monthPeriod = monthStart.toISOString().split('T')[0];
-  
       // Update workout trends with consolidated totals
       console.log("Updating weekly workout trends with total weight and reps:", totalWorkoutWeight, totalWorkoutReps);
       await updateWorkoutTrends(athleteID, 'weekly', weekPeriod, totalWorkoutWeight, totalWorkoutReps);
-      
-      console.log("Updating monthly workout trends with total weight and reps:", totalWorkoutWeight, totalWorkoutReps);
-      await updateWorkoutTrends(athleteID, 'monthly', monthPeriod, totalWorkoutWeight, totalWorkoutReps);
   
       Alert.alert('Success', 'Workout session completed!');
       navigation.goBack();

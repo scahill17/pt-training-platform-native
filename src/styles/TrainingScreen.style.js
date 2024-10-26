@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: "italic",
     color: "#555",
-    marginVertical: 5, 
-  },  
+    marginVertical: 5,
+  },
   exerciseDetails: {
     fontSize: 16,
     color: "#555",
@@ -73,7 +73,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   },
-  
+  sessionCompletedContainer: {
+    backgroundColor: "#ccc",
+    paddingVertical: 12,
+    borderRadius: 10,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+  },
+  sessionCompletedText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fff",
+  }
+
 });
 
 export default styles;

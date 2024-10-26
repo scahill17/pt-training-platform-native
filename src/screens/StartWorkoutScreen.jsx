@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Alert, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, ScrollView, Dimensions, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import RenderExercisePage from '../components/RenderExercisePage';
 import styles from '../styles/StartWorkoutScreen.style';
-import { fetchWorkoutSessionDetails, saveWorkoutSession, saveWorkoutDetails, deleteWorkoutSession } from '../api/api';
+import { fetchWorkoutSessionDetails, saveWorkoutSession, saveWorkoutDetails, deleteWorkoutSession, fetchExerciseId } from '../api/api';
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('window').width - 40;
 
 export default function StartWorkoutScreen({ route }) {
   const { athleteID, date } = route.params;
@@ -29,38 +29,35 @@ export default function StartWorkoutScreen({ route }) {
     loadWorkoutSession();
   }, [athleteID, date]);
 
-  const handleAddSet = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
-    updatedExercises[exerciseIndex].sets += 1;
-    setExercises(updatedExercises);
-  };
-
-  const handleRemoveSet = (exerciseIndex) => {
-    const updatedExercises = [...exercises];
-    if (updatedExercises[exerciseIndex].sets > 1) {
-      updatedExercises[exerciseIndex].sets -= 1;
-      setExercises(updatedExercises);
-    }
-  };
-
   const handleCompleteWorkout = async () => {
     try {
-      await deleteWorkoutSession(workoutSession.id);
+      console.log("exercises 1: ", exercises);
+      await deleteWorkoutSession(athleteID, date);
       const newSessionId = await saveWorkoutSession(athleteID, date, 'Y'); // Create a new session with completed = 'Y'
+      console.log("new sessionid: ", newSessionId);
+      console.log("exercises: ", exercises);
+      console.log("exercises[0]: ", exercises[0]);
+      console.log("exercises[0].id: ", exercises[0].id);
 
-      for (const exercise of exercises) {
-        await saveWorkoutDetails({
+      await Promise.all(exercises.map(async (exercise) => {
+        const exerciseId = await fetchExerciseId(exercise.name); // Get the correct ID for the exercise name
+
+        const exerciseData = {
           workout_session_id: newSessionId,
-          exercise_id: exercise.id,
-          instructions: exercise.instructions,
+          exercise_id: exerciseId,
           sets: exercise.sets,
           reps: exercise.reps,
           weight: exercise.weight,
-        });
-      }
+          instructions: exercise.instructions || "",
+        };
+
+        console.log("Exercise data: ", exerciseData);
+
+        await saveWorkoutDetails(exerciseData); // Save workout details with correct structure
+      }));
 
       Alert.alert('Success', 'Workout session completed!');
-      navigation.navigate('Training');
+      navigation.goBack();
     } catch (error) {
       console.error('Error completing workout session:', error);
       Alert.alert('Error', 'Failed to complete workout session.');
@@ -78,18 +75,26 @@ export default function StartWorkoutScreen({ route }) {
         >
           {exercises.map((exercise, index) => (
             <RenderExercisePage
+              key={index}
               exercise={exercise}
-              onAddSet={() => handleAddSet(index)}
-              onRemoveSet={() => handleRemoveSet(index)}
               currentIndex={index}
               totalExercises={exercises.length}
+              exercises={exercises} // Pass the exercises array
+              setExercises={setExercises} // Pass the setExercises function
             />
           ))}
 
           {/* Done Training Page */}
           <View style={[styles.completePage, { width: screenWidth }]}>
-            <Text style={styles.completeText}>Done Training!</Text>
-            <Button title="Complete Workout" onPress={handleCompleteWorkout} />
+            <Image
+              source={require('../../assets/logo.png')}
+              style={styles.image}
+            />
+            <Text style={styles.completeText}>Congratulations!</Text>
+            <Text style={styles.subText}>You've successfully completed your workout session.</Text>
+            <TouchableOpacity style={styles.completeSessionButton} onPress={handleCompleteWorkout}>
+              <Text style={styles.completeSessionText}>Complete Workout</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       ) : (

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   workoutTableContainer: {
-    width: '100%',
+    width: '95%',
     marginTop: 10,
   },
   tableHeader: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   headerText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
   },
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   inputField: {
-    width: '30%',
+    width: '20%',
     paddingVertical: 5,
     borderWidth: 1,
     borderColor: '#ddd',

@@ -23,21 +23,20 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, 
   const handleAddSetRow = () => {
     const updatedExercises = [...exercises];
     updatedExercises[index].sets += 1;
-    updatedExercises[index].reps.push(''); // Add an empty rep input
-    updatedExercises[index].weight.push(''); // Add an empty weight input
+    updatedExercises[index].reps.push(''); // Add placeholder for reps
+    updatedExercises[index].weight.push(''); // Add placeholder for weight
     setExercises(updatedExercises);
   };
-
-  // Remove the last set row from the exercise table
+  
   const handleRemoveSetRow = () => {
     const updatedExercises = [...exercises];
     if (updatedExercises[index].sets > 1) {
       updatedExercises[index].sets -= 1;
-      updatedExercises[index].reps.pop(); // Remove the last rep input
-      updatedExercises[index].weight.pop(); // Remove the last weight input
+      updatedExercises[index].reps.pop(); // Remove last entry in reps
+      updatedExercises[index].weight.pop(); // Remove last entry in weight
       setExercises(updatedExercises);
     }
-  };
+  };  
 
   return (
     <View style={styles.workoutTableContainer}>
@@ -46,7 +45,7 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, 
         <Text style={styles.headerText}>Set</Text>
         <Text style={styles.headerText}>Reps</Text>
         <Text style={styles.headerText}>Weight</Text>
-        {showCheckBox && <Text style={styles.headerText}>Complete</Text>}
+        {showCheckBox && <Text style={styles.headerText}>Done</Text>}
       </View>
 
       {/* Table Rows */}

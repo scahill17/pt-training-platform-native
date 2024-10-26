@@ -5,11 +5,8 @@ import WorkoutTable from '../components/WorkoutTable';
 import styles from '../styles/RenderExercisePage.style';
 import { useNavigation } from '@react-navigation/native';
 
-export default function RenderExercisePage({ exercise, onAddSet, onRemoveSet, currentIndex, totalExercises }) {
-  const [completedSets, setCompletedSets] = useState(
-    new Array(exercise.sets).fill(false)
-  );
-
+export default function RenderExercisePage({ exercise, currentIndex, totalExercises, exercises, setExercises }) {
+  const [completedSets, setCompletedSets] = useState(new Array(exercise.sets).fill(false));
   const navigation = useNavigation();
 
   const toggleCheckBox = (index) => {
@@ -18,7 +15,6 @@ export default function RenderExercisePage({ exercise, onAddSet, onRemoveSet, cu
     setCompletedSets(updatedCompletedSets);
   };
 
-  // Generate the dots for the page indicator
   const renderPageIndicator = () => {
     let dots = [];
     for (let i = 0; i < totalExercises; i++) {
@@ -27,7 +23,7 @@ export default function RenderExercisePage({ exercise, onAddSet, onRemoveSet, cu
           key={i}
           style={[
             styles.dot,
-            i === currentIndex ? styles.activeDot : styles.inactiveDot, // Larger and colored for active dot
+            i === currentIndex ? styles.activeDot : styles.inactiveDot,
           ]}
         />
       );
@@ -61,8 +57,9 @@ export default function RenderExercisePage({ exercise, onAddSet, onRemoveSet, cu
         showCheckBox={true}
         completedSets={completedSets}
         toggleCheckBox={toggleCheckBox}
-        onAddSet={onAddSet}
-        onRemoveSet={onRemoveSet}
+        index={currentIndex}
+        setExercises={setExercises}
+        exercises={exercises}
       />
     </View>
   );

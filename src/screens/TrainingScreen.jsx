@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import CustomCalendar from "../components/CustomCalendar";
 import styles from "../styles/TrainingScreen.style";
 import { Ionicons } from "@expo/vector-icons";
-import { fetchWorkoutSessionDetails } from "../api/api";
+import { fetchWorkoutSessionDetails, fetchCurrentWorkoutSession } from "../api/api";
 import WorkoutOptions from "../components/WorkoutOptions";
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,10 +11,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function TrainingScreen() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   const [workoutSession, setWorkoutSession] = useState(null);
+  const [session, setSession] = useState(null);
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [athleteId, setAthleteId] = useState(null);
-
   const navigation = useNavigation();
 
   // Fetch athleteId from AsyncStorage
@@ -43,9 +43,12 @@ export default function TrainingScreen() {
 
       try {
         setIsLoading(true);
-        const session = await fetchWorkoutSessionDetails(athleteId, selectedDate);
-        if (session) {
-          setWorkoutSession(session); // If workout session exists, update state
+        const currentSession = await fetchCurrentWorkoutSession(athleteId, selectedDate);
+        setSession(currentSession);
+        console.log("current session: ", session);
+        const sessionDetails = await fetchWorkoutSessionDetails(athleteId, selectedDate);
+        if (sessionDetails) {
+          setWorkoutSession(sessionDetails); // If workout session exists, update state
         } else {
           setWorkoutSession(null); // If no workout session exists, clear the previous session
         }
@@ -98,14 +101,21 @@ export default function TrainingScreen() {
 
         {/* Conditional Start/Add Session Button */}
         {workoutSession ? (
-          <TouchableOpacity style={styles.startSessionButton} onPress={handleStartSession}>
-            <Text style={styles.startSessionText}>Start Session</Text>
-          </TouchableOpacity>
+          session[0] && session[0].completed === "Y" ? (
+            <View style={styles.sessionCompletedContainer}>
+              <Text style={styles.sessionCompletedText}>Session Completed</Text>
+            </View>
+          ) : (
+            <TouchableOpacity style={styles.startSessionButton} onPress={handleStartSession}>
+              <Text style={styles.startSessionText}>Start Session</Text>
+            </TouchableOpacity>
+          )
         ) : (
           <TouchableOpacity style={styles.startSessionButton} onPress={handleAddWorkout}>
             <Text style={styles.startSessionText}>Add Session</Text>
           </TouchableOpacity>
         )}
+
 
         {/* Workout Options Modal */}
         {isOptionsVisible && (
@@ -113,7 +123,7 @@ export default function TrainingScreen() {
             onClose={() => setIsOptionsVisible(false)}
             athleteId={athleteId}
             date={selectedDate}
-            onDelete={handleDeleteAndRefresh} // Pass the delete handler
+            onDelete={handleDeleteAndRefresh}
           />
         )}
 

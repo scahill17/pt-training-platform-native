@@ -33,20 +33,20 @@ const AnalyticsScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Your Analytics</Text>
+      <Text style={styles.title}>Analytics</Text>
 
       <View style={styles.toggleContainer}>
         <TouchableOpacity 
           style={[styles.toggleButton, activeScreen === 'PerformanceOverview' && styles.activeButton]} 
           onPress={() => setActiveScreen('PerformanceOverview')}
         >
-          <Text style={styles.toggleText}>Performance Overview</Text>
+          <Text style={styles.toggleText}>Progress</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           style={[styles.toggleButton, activeScreen === 'ExerciseInsights' && styles.activeButton]} 
           onPress={() => setActiveScreen('ExerciseInsights')}
         >
-          <Text style={styles.toggleText}>Exercise Insights</Text>
+          <Text style={styles.toggleText}>Exercises</Text>
         </TouchableOpacity>
       </View>
 

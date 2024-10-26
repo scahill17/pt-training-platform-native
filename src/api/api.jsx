@@ -301,7 +301,10 @@ export const fetchWorkoutSessionId = async (athleteID, date) => {
 // ------------ ANALYTICS SCREEN ---------------- //
 export const fetchAthleteDetails = async () => apiRequest('athlete_details');
 
-export const fetchWorkoutTrends = async (athleteId) => apiRequest(`workout_trends?athlete_id=eq.${athleteId}`, 'GET');
+export const fetchWorkoutTrends = async (athleteId, trendType) => {
+  return apiRequest(`workout_trends?athlete_id=eq.${athleteId}&trend_type=eq.${trendType}`, 'GET');
+};
+
 
 export const fetchExercisePerformance = async (athleteId, exerciseId) => apiRequest(`exercise_performance?athlete_id=eq.${athleteId}&exercise_id=eq.${exerciseId}`, 'GET');
 

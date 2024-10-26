@@ -9,7 +9,7 @@ const chartHeight = 220;
 
 const PerformanceOverview = ({ athleteId }) => {
   const [workoutTrends, setWorkoutTrends] = useState([]);
-  const [selectedStat, setSelectedStat] = useState('total_weight');
+  const [selectedStat, setSelectedStat] = useState('average_weight');
   const [cumulativeStats, setCumulativeStats] = useState({ totalWeight: 0, averageWeight: 0, averageReps: 0, totalWorkouts: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +56,7 @@ const PerformanceOverview = ({ athleteId }) => {
         strokeWidth: 2,
       },
     ],
-    legend: [selectedStat === 'total_weight' ? 'Total Weight Lifted' : selectedStat === 'average_weight' ? 'Average Weight Lifted' : 'Average Reps Completed'],
+    legend: [selectedStat === 'total_weight' ? 'Total Weight Lifted Per Week' : selectedStat === 'average_weight' ? 'Average Weight Lifted Per Week' : 'Average Reps Completed Per Week'],
   };
 
   return (
@@ -66,8 +66,8 @@ const PerformanceOverview = ({ athleteId }) => {
       {/* Cumulative Stats Section */}
       <View style={styles.cumulativeStatsContainer}>
         <View style={styles.statBox}>
-          <Text style={styles.statLabel}>Total Weight Lifted</Text>
-          <Text style={styles.statValue}>{cumulativeStats.totalWeight} kg</Text>
+          <Text style={styles.statLabel}>Total Workouts Done</Text>
+          <Text style={styles.statValue}>{cumulativeStats.totalWorkouts}</Text>
         </View>
         <View style={styles.statBox}>
           <Text style={styles.statLabel}>Average Weight Lifted</Text>
@@ -78,8 +78,8 @@ const PerformanceOverview = ({ athleteId }) => {
           <Text style={styles.statValue}>{cumulativeStats.averageReps}</Text>
         </View>
         <View style={styles.statBox}>
-          <Text style={styles.statLabel}>Total Workouts Done</Text>
-          <Text style={styles.statValue}>{cumulativeStats.totalWorkouts}</Text>
+          <Text style={styles.statLabel}>Total Weight Lifted</Text>
+          <Text style={styles.statValue}>{cumulativeStats.totalWeight} kg</Text>
         </View>
       </View>
 
@@ -114,14 +114,6 @@ const PerformanceOverview = ({ athleteId }) => {
       {/* Stat Type Selector */}
       <View style={styles.statToggleContainer}>
         <TouchableOpacity
-          onPress={() => handleStatChange('total_weight')}
-          style={[styles.statButton, selectedStat === 'total_weight' && styles.activeStatButton]}
-        >
-          <Text style={[styles.statButtonText, selectedStat === 'total_weight' && styles.activeStatButtonText]}>
-            Total Weight Lifted
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           onPress={() => handleStatChange('average_weight')}
           style={[styles.statButton, selectedStat === 'average_weight' && styles.activeStatButton]}
         >
@@ -135,6 +127,14 @@ const PerformanceOverview = ({ athleteId }) => {
         >
           <Text style={[styles.statButtonText, selectedStat === 'average_reps' && styles.activeStatButtonText]}>
             Average Reps Completed
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleStatChange('total_weight')}
+          style={[styles.statButton, selectedStat === 'total_weight' && styles.activeStatButton]}
+        >
+          <Text style={[styles.statButtonText, selectedStat === 'total_weight' && styles.activeStatButtonText]}>
+            Total Weight Lifted
           </Text>
         </TouchableOpacity>
       </View>

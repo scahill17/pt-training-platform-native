@@ -6,14 +6,14 @@ export default StyleSheet.create({
     padding: 20,
     backgroundColor: '#fafafa',
     flexGrow: 1,
-    alignItems: 'center',
+    width: '100%',  // Ensure the container spans the full width
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'center',
-    marginTop: 50, // Adjusts positioning to be further down
+    marginTop: 50, // Positions title further down
     marginBottom: 30,
   },
   errorText: {
@@ -26,12 +26,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     width: '100%',  // Spreads buttons across screen width
-    justifyContent: 'space-between',
+    justifyContent: 'space-around', // Adds even spacing between buttons
     paddingHorizontal: 10,
   },
   toggleButton: {
     flex: 1,
-    paddingVertical: 10,
+    paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',
     backgroundColor: '#e0e0e0',
@@ -43,5 +43,6 @@ export default StyleSheet.create({
   toggleText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
   },
 });

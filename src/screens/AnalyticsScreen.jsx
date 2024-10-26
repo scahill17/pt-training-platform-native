@@ -29,13 +29,21 @@ const AnalyticsScreen = () => {
     loadAthleteId();
   }, []);
 
-  if (!athleteId) return <Text style={styles.errorText}>{errorMessage}</Text>;
+  if (!athleteId) {
+    return (
+      <View style={styles.centeredContainer}>
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      </View>
+    );
+  }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Your Analytics</Text>
-      <PerformanceOverview athleteId={athleteId} />
-      <ExerciseInsights athleteId={athleteId} />
+    <ScrollView contentContainerStyle={styles.scrollView}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Your Analytics</Text>
+        <PerformanceOverview athleteId={athleteId} />
+        <ExerciseInsights athleteId={athleteId} />
+      </View>
     </ScrollView>
   );
 };

@@ -3,11 +3,22 @@ import { View, Text, TouchableOpacity, Modal, Alert } from "react-native";
 import styles from "../styles/WorkoutOptions.style";
 import { deleteWorkoutSession } from "../api/api";
 
+/**
+ * WorkoutOptions component for managing workout sessions, allowing deletion with confirmation.
+ * @param {Object} props - Component props.
+ * @param {Function} props.onClose - Function to close the modal.
+ * @param {number} props.athleteId - ID of the athlete.
+ * @param {string} props.date - Date of the workout session.
+ * @param {Function} props.onDelete - Callback function to trigger data refresh on deletion.
+ * @returns {JSX.Element} - Rendered WorkoutOptions component.
+ */
 export default function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
-  // Handle delete session
+  
+  /**
+   * Confirms and deletes the workout session.
+   */
   const handleDeleteSession = async () => {
     try {
-      // Confirm deletion
       Alert.alert(
         "Delete Session",
         "Are you sure you want to delete this session?",
@@ -17,7 +28,8 @@ export default function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
             text: "Delete",
             onPress: async () => {
               await deleteWorkoutSession(athleteId, date);
-              onDelete(); // Notify parent component to refresh data and close modal
+              // Notify parent to refresh data and close modal
+              onDelete();
             },
             style: "destructive",
           },

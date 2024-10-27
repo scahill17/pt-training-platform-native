@@ -8,25 +8,35 @@ import styles from '../styles/PerformanceOverview.style';
 const screenWidth = Dimensions.get('window').width;
 const chartHeight = 220;
 
+/**
+ * PerformanceOverview component for displaying workout trends and cumulative statistics.
+ * @param {Object} props - Component props.
+ * @param {number} props.athleteId - ID of the athlete.
+ * @returns {JSX.Element} - Rendered PerformanceOverview component.
+ */
 const PerformanceOverview = ({ athleteId }) => {
   const [workoutTrends, setWorkoutTrends] = useState([]);
   const [selectedStat, setSelectedStat] = useState('average_weight');
   const [cumulativeStats, setCumulativeStats] = useState({ totalWeight: 0, averageWeight: 0, averageReps: 0, totalWorkouts: 0 });
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Loads workout trends and calculates cumulative stats for the athlete.
+   */
   useFocusEffect(
     useCallback(() => {
       const loadTrends = async () => {
         try {
           const trends = await fetchWorkoutTrends(athleteId, 'weekly');
+          // Limit to 6 entries for display.
           const recentTrends = trends.slice(-7);
           setWorkoutTrends(recentTrends);
 
-          // Calculate cumulative stats
-          const totalWeight = trends.reduce((sum, trend) => sum + trend.total_weight, 0);
-          const averageWeight = Math.round(trends.reduce((sum, trend) => sum + trend.average_weight, 0) / trends.length);
-          const averageReps = Math.round(trends.reduce((sum, trend) => sum + trend.average_reps, 0) / trends.length);
-          const totalWorkouts = trends.reduce((sum, trend) => sum + trend.total_workouts, 0);
+          // Calculate cumulative stats for trend data.
+          totalWeight = trends.reduce((sum, trend) => sum + trend.total_weight, 0);
+          averageWeight = Math.round(trends.reduce((sum, trend) => sum + trend.average_weight, 0) / trends.length);
+          averageReps = Math.round(trends.reduce((sum, trend) => sum + trend.average_reps, 0) / trends.length);
+          totalWorkouts = trends.reduce((sum, trend) => sum + trend.total_workouts, 0);
 
           setCumulativeStats({
             totalWeight,
@@ -44,10 +54,17 @@ const PerformanceOverview = ({ athleteId }) => {
     }, [athleteId])
   );
 
+  /**
+   * Handles stat change for the graph display.
+   * @param {String} stat 
+   */
   const handleStatChange = (stat) => {
     setSelectedStat(stat);
   };
 
+  /**
+   * Data formatted for presentation on the graph depending on selected stat.
+   */
   const formattedData = {
     labels: workoutTrends.map(trend =>
       new Date(trend.trend_period).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' })
@@ -66,6 +83,7 @@ const PerformanceOverview = ({ athleteId }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.headerText}>Performance Overview</Text>
 
+      {/* Stat information in boxes before the graph */}
       <View style={styles.cumulativeStatsContainer}>
         <View style={styles.statBox}>
           <Text style={styles.statLabel}>Total Workouts Done</Text>
@@ -85,6 +103,7 @@ const PerformanceOverview = ({ athleteId }) => {
         </View>
       </View>
 
+      {/* Graph component displayed for each main stat type */}
       {loading ? (
         <Text>Loading workout trends...</Text>
       ) : (

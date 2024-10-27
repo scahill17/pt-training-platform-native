@@ -4,22 +4,34 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/WorkoutTable.style'
 
 /**
- * WorkoutTable component for React Native - Displays a table for an exercise with sets, reps, and weight
- * @param {Object} exercise - The current exercise being edited
- * @param {number} index - The index of the exercise in the exercises array
- * @param {Function} setExercises - Function to update the exercises state
- * @param {Array} exercises - The array of exercises
+ * WorkoutTable component for displaying exercise details in a table format.
+ * @param {Object} props - Component props.
+ * @param {Object} props.exercise - Exercise data with sets, reps, and weight.
+ * @param {number} props.index - Index of the exercise in the exercises array.
+ * @param {Function} props.setExercises - Function to update exercises state.
+ * @param {Array} props.exercises - Array of exercises.
+ * @param {boolean} [props.showCheckBox] - Determines if checkboxes are shown for sets.
+ * @param {Array<boolean>} [props.completedSets] - Array tracking completed sets.
+ * @param {Function} [props.toggleCheckBox] - Function to toggle checkbox state for sets.
+ * @returns {JSX.Element} - Rendered WorkoutTable component.
  */
 const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, completedSets, toggleCheckBox }) => {
 
-  // Handle change in the reps or weight for a specific set
+  /**
+   * Updates reps or weight for a specific set in the exercises array.
+   * @param {number} setIndex - Index of the set being updated.
+   * @param {string} field - Either 'reps' or 'weight' field to update.
+   * @param {string} value - New value for the field.
+   */
   const handleTableChange = (setIndex, field, value) => {
     const updatedExercises = [...exercises];
     updatedExercises[index][field][setIndex] = value; // Update reps or weight at specific set index
     setExercises(updatedExercises);
   };
 
-  // Add a new set row to the exercise table
+  /**
+   * Adds a new set row into the table
+   */
   const handleAddSetRow = () => {
     const updatedExercises = [...exercises];
     updatedExercises[index].sets += 1;
@@ -28,6 +40,9 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, 
     setExercises(updatedExercises);
   };
   
+  /**
+   * Removes a last set row into the table
+   */
   const handleRemoveSetRow = () => {
     const updatedExercises = [...exercises];
     if (updatedExercises[index].sets > 1) {

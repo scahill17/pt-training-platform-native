@@ -1,17 +1,25 @@
-// src/components/Analytics/ExerciseInsights.jsx
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { fetchExercises, fetchExercisePerformance } from '../api/api';
 import { useFocusEffect } from '@react-navigation/native';
 import styles from '../styles/ExerciseInsights.style';
 
+/**
+ * ExerciseInsights component for displaying exercise performance insights.
+ * @param {Object} props - Component props.
+ * @param {number} props.athleteId - ID of the athlete.
+ * @returns {JSX.Element} - Rendered ExerciseInsights component.
+ */
 const ExerciseInsights = ({ athleteId }) => {
   const [exercises, setExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState('');
   const [performanceData, setPerformanceData] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Fetches list of exercises available for the athlete.
+   */
   const loadExercises = useCallback(async () => {
     try {
       const exerciseData = await fetchExercises();
@@ -21,6 +29,9 @@ const ExerciseInsights = ({ athleteId }) => {
     }
   }, []);
 
+  /**
+   * Fetches performance data for the selected exercise.
+   */
   const loadPerformanceData = useCallback(async () => {
     if (!selectedExercise) return;
     setLoading(true);
@@ -34,6 +45,7 @@ const ExerciseInsights = ({ athleteId }) => {
     }
   }, [selectedExercise, athleteId]);
 
+  // Load exercises on component focus and on mount
   useFocusEffect(
     useCallback(() => {
       loadExercises();

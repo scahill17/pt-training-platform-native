@@ -28,7 +28,7 @@ const apiRequest = async (endpoint, method = 'GET', body = null) => {
 
     // Log the entire response body for debugging purposes
     console.log(`Response from ${method} request to ${endpoint}:`, responseBody);
-    
+
     if (!response.ok) {
       console.error(`Error response from ${method} request to ${endpoint}:`, responseBody); // Log error response body
       throw new Error(`Error API Call Failed: ${response.status}: ${response.statusText}`);
@@ -382,7 +382,7 @@ export const updateExercisePerformance = async (
   personalBestReps
 ) => {
   try {
-      // Fetch existing performance data
+    // Fetch existing performance data
     const response = await apiRequest(`exercise_performance?athlete_id=eq.${athleteId}&exercise_id=eq.${exerciseId}`, 'GET');
     const existingData = response.length > 0 ? response[0] : null;
 
@@ -395,37 +395,37 @@ export const updateExercisePerformance = async (
       ? Math.floor(((existingData.average_weight * existingData.total_sessions) + averageWeight) / newTotalSessions) / updatedAverageReps
       : Math.floor(averageWeight / updatedAverageReps);
 
-      // Determine updated personal bests
+    // Determine updated personal bests
     const updatedPersonalBestWeight = existingData && existingData.personal_best_weight > personalBestWeight
-    ? existingData.personal_best_weight
-    : personalBestWeight;
-  const updatedPersonalBestReps = existingData && existingData.personal_best_reps > personalBestReps
-    ? existingData.personal_best_reps
-    : personalBestReps;
+      ? existingData.personal_best_weight
+      : personalBestWeight;
+    const updatedPersonalBestReps = existingData && existingData.personal_best_reps > personalBestReps
+      ? existingData.personal_best_reps
+      : personalBestReps;
 
-      // Update or insert exercise performance data
-      if (existingData) {
-          await apiRequest(`exercise_performance?id=eq.${existingData.id}`, 'PATCH', {
-              total_sessions: newTotalSessions,
-              average_weight: updatedAverageWeight,
-              average_reps: updatedAverageReps,
-              personal_best_weight: updatedPersonalBestWeight,
-              personal_best_reps: updatedPersonalBestReps,
-          });
-      } else {
-          await apiRequest('exercise_performance', 'POST', {
-              athlete_id: athleteId,
-              exercise_id: exerciseId,
-              total_sessions: newTotalSessions,
-              average_weight: updatedAverageWeight,
-              average_reps: updatedAverageReps,
-              personal_best_weight: updatedPersonalBestWeight,
-              personal_best_reps: updatedPersonalBestReps,
-          });
-      }
+    // Update or insert exercise performance data
+    if (existingData) {
+      await apiRequest(`exercise_performance?id=eq.${existingData.id}`, 'PATCH', {
+        total_sessions: newTotalSessions,
+        average_weight: updatedAverageWeight,
+        average_reps: updatedAverageReps,
+        personal_best_weight: updatedPersonalBestWeight,
+        personal_best_reps: updatedPersonalBestReps,
+      });
+    } else {
+      await apiRequest('exercise_performance', 'POST', {
+        athlete_id: athleteId,
+        exercise_id: exerciseId,
+        total_sessions: newTotalSessions,
+        average_weight: updatedAverageWeight,
+        average_reps: updatedAverageReps,
+        personal_best_weight: updatedPersonalBestWeight,
+        personal_best_reps: updatedPersonalBestReps,
+      });
+    }
   } catch (error) {
-      console.error('Error updating exercise performance:', error);
-      throw error;
+    console.error('Error updating exercise performance:', error);
+    throw error;
   }
 };
 

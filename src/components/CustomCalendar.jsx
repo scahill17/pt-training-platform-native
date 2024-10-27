@@ -4,10 +4,21 @@ import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 import styles from "../styles/CustomCalendar.style";
 
-export default function CustomCalendar({ selectedDate, setSelectedDate }) {
+/**
+ * CustomCalendar component for displaying and navigating weekly dates.
+ * @param {Object} props - Component props.
+ * @param {string} props.selectedDate - Currently selected date.
+ * @param {function} props.setSelectedDate - Function to update selected date.
+ * @returns {JSX.Element} - Rendered CustomCalendar component.
+ */
+function CustomCalendar({ selectedDate, setSelectedDate }) {
   const [currentWeek, setCurrentWeek] = useState(getCurrentWeekDates(new Date()));
 
-  // Function to get the current week's dates
+  /**
+   * Returns an array of dates representing the current week.
+   * @param {Date} startDate - Date to calculate the week's start.
+   * @returns {Array<string>} - Array of dates formatted as 'YYYY-MM-DD'.
+   */
   function getCurrentWeekDates(startDate) {
     const startOfWeek = moment(startDate).startOf("isoWeek"); // Monday as start of week
     return Array.from({ length: 7 }, (_, i) =>
@@ -15,30 +26,44 @@ export default function CustomCalendar({ selectedDate, setSelectedDate }) {
     );
   }
 
-  // Navigate to the next week
+  /**
+   * Navigates to the next week by updating currentWeek state.
+   */
   const nextWeek = () => {
     const newStartDate = moment(currentWeek[0]).add(1, "weeks").toDate();
     setCurrentWeek(getCurrentWeekDates(newStartDate));
   };
 
-  // Navigate to the previous week
+  /**
+   * Navigates to the previous week by updating currentWeek state.
+   */
   const prevWeek = () => {
     const newStartDate = moment(currentWeek[0]).subtract(1, "weeks").toDate();
     setCurrentWeek(getCurrentWeekDates(newStartDate));
   };
 
-  // Jump to today's date
+  /**
+   * Jumps to todays current date in the calendar
+   */
   const jumpToToday = () => {
     const today = moment().format("YYYY-MM-DD");
     setSelectedDate(today);
     setCurrentWeek(getCurrentWeekDates(today)); // Update current week to today
   };
 
-  // Handle selecting a new date
+  /**
+   * Changes the selected date on the calendar to the updated date.
+   * @param {Date} date - Date to navigate the calendar to. 
+   */
   const handleDateSelect = (date) => {
     setSelectedDate(date); // Update the selected date in the parent component
   };
 
+  /**
+   * Renders each day in the week as a selectable date.
+   * @param {Object} item - Date item for each day.
+   * @returns {JSX.Element} - Rendered day item.
+   */
   const renderDay = ({ item }) => {
     const isSelected = item === selectedDate;
     return (
@@ -54,7 +79,7 @@ export default function CustomCalendar({ selectedDate, setSelectedDate }) {
 
   return (
     <View style={styles.container}>
-      
+
       {/* Week Navigation Buttons */}
       <View style={styles.weekNavigation}>
         <TouchableOpacity onPress={prevWeek}>
@@ -82,7 +107,9 @@ export default function CustomCalendar({ selectedDate, setSelectedDate }) {
       <TouchableOpacity onPress={jumpToToday} style={styles.todayButton}>
         <Text style={styles.todayButtonText}>Jump to Today</Text>
       </TouchableOpacity>
-      
+
     </View>
   );
 }
+
+export default CustomCalendar;

@@ -59,7 +59,7 @@ const PerformanceOverview = ({ athleteId }) => {
         strokeWidth: 2,
       },
     ],
-    legend: [selectedStat === 'total_weight' ? 'Total Weight Lifted Per Week' : selectedStat === 'average_weight' ? 'Average Weight Lifted Per Week' : 'Average Reps Completed Per Week'],
+    legend: [selectedStat === 'total_weight' ? 'Total Weight Lifted Per Week' : selectedStat === 'average_weight' ? 'Average Weight Lifted Per Rep' : 'Average Reps Completed Per Week'],
   };
 
   return (

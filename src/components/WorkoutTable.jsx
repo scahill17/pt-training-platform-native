@@ -39,7 +39,7 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, 
     updatedExercises[index].weight.push(''); // Add placeholder for weight
     setExercises(updatedExercises);
   };
-  
+
   /**
    * Removes a last set row into the table
    */
@@ -51,7 +51,7 @@ const WorkoutTable = ({ exercise, index, setExercises, exercises, showCheckBox, 
       updatedExercises[index].weight.pop(); // Remove last entry in weight
       setExercises(updatedExercises);
     }
-  };  
+  };
 
   return (
     <View style={styles.workoutTableContainer}>

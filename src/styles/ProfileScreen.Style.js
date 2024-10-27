@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  inputContainer: {
+    width: '100%',
+  }
 });
 
 export default styles;

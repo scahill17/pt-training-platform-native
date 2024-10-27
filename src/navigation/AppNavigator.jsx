@@ -46,20 +46,20 @@ function MainTabs() {
 
                     switch (route.name) {
                         case 'Home':
-                          iconName = focused ? 'home' : 'home-outline';
-                          break;
+                            iconName = focused ? 'home' : 'home-outline';
+                            break;
                         case 'Profile':
-                          iconName = focused ? 'person' : 'person-outline';
-                          break;
+                            iconName = focused ? 'person' : 'person-outline';
+                            break;
                         case 'Analytics':
-                          iconName = focused ? 'analytics' : 'analytics-outline';
-                          break;
+                            iconName = focused ? 'analytics' : 'analytics-outline';
+                            break;
                         case 'Training':
-                          iconName = focused ? 'barbell' : 'barbell-outline';
-                          break;
+                            iconName = focused ? 'barbell' : 'barbell-outline';
+                            break;
                         default:
-                          iconName = 'ellipse-outline';
-                      }
+                            iconName = 'ellipse-outline';
+                    }
 
                     return (
                         <View style={focused ? styles.focusedTabContainer : styles.tabContainer}>

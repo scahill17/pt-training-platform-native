@@ -6,7 +6,11 @@ import styles from "../styles/ProfileScreen.Style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function ProfileScreen() {
+/**
+ * ProfileScreen component for displaying and updating user's profile information.
+ * @returns {JSX.Element} - Rendered ProfileScreen component.
+ */
+function ProfileScreen() {
   const navigation = useNavigation();
   const [userId, setUserId] = useState(null);
   const [profileData, setProfileData] = useState({
@@ -16,59 +20,57 @@ export default function ProfileScreen() {
     fitness_goals: "",
     medical_conditions: "",
   });
-
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch logged-in user's profile data on component mount
   useEffect(() => {
-    const loadUserProfile = async () => {
-      try {
-        const storedUserId = await AsyncStorage.getItem("userId"); // Get the stored userId
-        if (storedUserId) {
-          setUserId(storedUserId); // Set the userId state
-          const data = await fetchUserProfile(storedUserId);
-          if (data) {
-            setProfileData({
-              name: data[0].name,
-              email: data[0].email,
-              age: data[0].age ? String(data[0].age) : "", // Convert age to string for TextInput
-              fitness_goals: data[0].fitness_goals || "",
-              medical_conditions: data[0].medical_conditions || "",
-            });
-          } else {
-            throw new Error("User profile data could not be retrieved");
-          }
-        } else {
-          Alert.alert("Error", "User ID not found, please sign in again.");
-          navigation.replace("Signin");
-        }
-      } catch (error) {
-        console.error("Failed to load user profile:", error);
-        Alert.alert("Error", "Failed to load profile. Please try again.");
-        navigation.replace("Signin");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     loadUserProfile();
   }, []);
 
+  /**
+   * Loads user profile data from AsyncStorage and API.
+   */
+  const loadUserProfile = async () => {
+    try {
+      const storedUserId = await AsyncStorage.getItem("userId");
+      if (storedUserId) {
+        setUserId(storedUserId);
+        const data = await fetchUserProfile(storedUserId);
+        if (data) {
+          setProfileData({
+            name: data[0].name,
+            email: data[0].email,
+            age: data[0].age ? String(data[0].age) : "", // Convert age to string for TextInput
+            fitness_goals: data[0].fitness_goals || "",
+            medical_conditions: data[0].medical_conditions || "",
+          });
+        } else {
+          throw new Error("User profile data could not be retrieved");
+        }
+      } else {
+        Alert.alert("Error", "User ID not found, please sign in again.");
+        navigation.replace("Signin");
+      }
+    } catch (error) {
+      console.error("Failed to load user profile:", error);
+      Alert.alert("Error", "Failed to load profile. Please try again.");
+      navigation.replace("Signin");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * Updates user profile data in the database.
+   */
   const handleUpdateProfile = async () => {
     try {
-      // Update the user table (name, email)
-      await updateUserProfile(userId, {
-        name: profileData.name,
-        email: profileData.email,
-      });
-
-      // Update the athlete table (age, fitness goals, medical conditions)
+      // Update the user and athlete table
+      await updateUserProfile(userId, { name: profileData.name, email: profileData.email });
       await updateAthleteProfile(userId, {
         age: profileData.age,
         fitness_goals: profileData.fitness_goals,
         medical_conditions: profileData.medical_conditions,
       });
-
       Alert.alert("Success", "Profile updated successfully!");
     } catch (error) {
       console.error("Failed to update profile:", error);
@@ -85,6 +87,24 @@ export default function ProfileScreen() {
     }
   };
 
+  /**
+   * Renders a text input field for the profile form.
+   * @param {string} label - Label for the input field.
+   * @param {string} value - Current value of the input field.
+   * @param {Function} onChange - Function to handle text changes.
+   * @returns {JSX.Element} - Rendered text input field.
+   */
+  const renderTextInput = (label, value, onChange) => (
+    <View style={styles.inputContainer}>
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={onChange}
+        placeholder={`Enter ${label.toLowerCase()}`}
+      />
+    </View>
+  );
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -100,50 +120,11 @@ export default function ProfileScreen() {
 
         <Text style={styles.title}>Profile</Text>
 
-        {/* Name Field */}
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={profileData.name}
-          onChangeText={(text) => setProfileData({ ...profileData, name: text })}
-        />
-
-        {/* Email Field */}
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={profileData.email}
-          onChangeText={(text) => setProfileData({ ...profileData, email: text })}
-        />
-
-        {/* Age Field */}
-        <Text style={styles.label}>Age</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Age"
-          value={profileData.age}
-          onChangeText={(text) => setProfileData({ ...profileData, age: text })}
-        />
-
-        {/* Fitness Goals Field */}
-        <Text style={styles.label}>Fitness Goals</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Fitness Goals"
-          value={profileData.fitness_goals}
-          onChangeText={(text) => setProfileData({ ...profileData, fitness_goals: text })}
-        />
-
-        {/* Medical Conditions Field */}
-        <Text style={styles.label}>Medical Conditions</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Medical Conditions"
-          value={profileData.medical_conditions}
-          onChangeText={(text) => setProfileData({ ...profileData, medical_conditions: text })}
-        />
+        {renderTextInput("Name", profileData.name, (text) => setProfileData({ ...profileData, name: text }))}
+        {renderTextInput("Email", profileData.email, (text) => setProfileData({ ...profileData, email: text }))}
+        {renderTextInput("Age", profileData.age, (text) => setProfileData({ ...profileData, age: text }))}
+        {renderTextInput("Fitness Goals", profileData.fitness_goals, (text) => setProfileData({ ...profileData, fitness_goals: text }))}
+        {renderTextInput("Medical Conditions", profileData.medical_conditions, (text) => setProfileData({ ...profileData, medical_conditions: text }))}
 
         {/* Update Profile Button */}
         <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
@@ -159,3 +140,5 @@ export default function ProfileScreen() {
     </ScrollView>
   );
 }
+
+export default ProfileScreen;

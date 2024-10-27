@@ -14,22 +14,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end", 
     paddingBottom: 20,
   },
-
   title: {
     paddingTop: 150,
+    paddingBottom: 100,
     fontSize: 40,
     fontWeight: "bold",
     color: "#333",
     textAlign: "center",
   },
-  subTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingBottom: 40,
-    color: "#666",
-    textAlign: "center",
-  },
-
   input: {
     width: "100%",
     backgroundColor: "#f0f0f0",

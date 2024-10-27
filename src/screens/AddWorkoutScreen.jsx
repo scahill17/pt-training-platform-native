@@ -1,44 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { fetchExercises, addNewExercise, fetchExerciseId, saveWorkoutSession, saveWorkoutDetails, fetchWorkoutSessionId } from '../api/api';
-import styles from '../styles/AddWorkoutScreen.style';
-import WorkoutTable from '../components/WorkoutTable';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
-import { Navigate } from 'react-router-dom';
+import {
+  fetchExercises,
+  addNewExercise,
+  fetchExerciseId,
+  saveWorkoutSession,
+  saveWorkoutDetails,
+  fetchWorkoutSessionId
+} from '../api/api';
+import styles from '../styles/AddWorkoutScreen.style';
+import WorkoutTable from '../components/WorkoutTable';
 
-export default function AddWorkoutScreen({ route }) {
+/**
+ * AddWorkoutScreen component for adding a workout session with exercises for a specific athlete.
+ * @param {Object} props - Component props.
+ * @param {Object} props.route - React Navigation route object containing parameters.
+ * @returns {JSX.Element} - Rendered AddWorkoutScreen component.
+ */
+function AddWorkoutScreen({ route }) {
   const { athleteID, date } = route.params;
   const [exercises, setExercises] = useState([]);
   const [exerciseOptions, setExerciseOptions] = useState([]);
   const [newExerciseIndexes, setNewExerciseIndexes] = useState([]);
   const [newExerciseName, setNewExerciseName] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState('');
 
   const navigation = useNavigation();
 
-  // Fetch exercises from the database
+  // Fetch exercises on component mount
   useEffect(() => {
-    const loadExercises = async () => {
-      try {
-        const fetchedExercises = await fetchExercises();
-        setExerciseOptions(['Select Exercise', ...fetchedExercises.map(exercise => exercise.name), 'New Exercise']);
-      } catch (error) {
-        console.error('Error fetching exercises:', error);
-      }
-    };
-
     loadExercises();
   }, []);
 
-  // Add a new exercise block to the session
+  /**
+   * Loads available exercises to populate the exercise selection.
+   */
+  const loadExercises = async () => {
+    try {
+      const fetchedExercises = await fetchExercises();
+      setExerciseOptions(['Select Exercise', ...fetchedExercises.map(exercise => exercise.name), 'New Exercise']);
+    } catch (error) {
+      console.error("Error loading exercises:", error);
+      Alert.alert("Error", "Failed to load exercises.");
+    }
+  };
+
+  /**
+   * Adds an empty exercise template to the exercises list for editing.
+   */
   const handleAddExercise = () => {
     setExercises([...exercises, { name: 'Select Exercise', sets: 3, instructions: '', reps: ['', '', ''], weight: ['', '', ''] }]);
   };
 
-  // Handle dropdown change
+  /**
+   * Handles exercise change from the dropdown component.
+   * @param {Integer} index - The index of the selected exercise.
+   * @param {String} value - The selected exercise in the drop down list.
+   */
   const handleExerciseChange = (index, value) => {
     const updatedExercises = [...exercises];
     updatedExercises[index].name = value;
@@ -51,13 +72,21 @@ export default function AddWorkoutScreen({ route }) {
     }
   };
 
+  /**
+   * Handles instructions changing for a given exercise.
+   * @param {Integer} index - The index of the selected exercise.
+   * @param {String} value - The instructions for the specific exercise.
+   */
   const handleInstructionsChange = (index, value) => {
     const updatedExercises = [...exercises];
     updatedExercises[index].instructions = value;
     setExercises(updatedExercises);
   };
 
-  // Confirm adding a new exercise
+  /**
+   * Confirms the creation of a new exercise.
+   * @param {Integer} index - Index of the new exercise being created. 
+   */
   const handleAddNewExerciseConfirm = async (index) => {
     if (newExerciseName.trim()) {
       try {
@@ -72,7 +101,10 @@ export default function AddWorkoutScreen({ route }) {
     }
   };
 
-  // Revert the new exercise selection
+  /**
+   * Handles cancelling the new exercise being created.
+   * @param {Integer} index - Index of the new exercise that was being created. 
+   */
   const handleRevertNewExercise = (index) => {
     const updatedExercises = [...exercises];
     updatedExercises[index].name = 'Select Exercise'; // Revert to placeholder
@@ -80,7 +112,10 @@ export default function AddWorkoutScreen({ route }) {
     setNewExerciseIndexes(newExerciseIndexes.filter(i => i !== index));
   };
 
-  // Input validation before saving the workout
+  /**
+   * Checks if the information entered in for the workout session is valid.
+   * @returns {Boolean} - True if valid workout setup, false otherwise.
+   */
   const validateWorkout = () => {
     for (const exercise of exercises) {
       // Ensure an exercise is selected
@@ -99,35 +134,34 @@ export default function AddWorkoutScreen({ route }) {
     return true;
   };
 
-  // Save workout session
+  /**
+   * Saves the workout session and exercises to the database.
+   */
   const handleSaveWorkout = async () => {
     if (!validateWorkout()) return; // Run validation before saving
 
     try {
       // Save the workout session
       await saveWorkoutSession(athleteID, date);
-  
+
       // Fetch the workout session ID after saving
       const workoutSessionId = await fetchWorkoutSessionId(athleteID, date);
-  
+
       // Save the workout details (exercises)
       await Promise.all(exercises.map(async (exercise) => {
-        const exerciseId = await fetchExerciseId(exercise.name); // Get the correct ID for the exercise name
-  
+        const exerciseId = await fetchExerciseId(exercise.name);
         const exerciseData = {
           workout_session_id: workoutSessionId,
-          exercise_id: exerciseId, 
+          exercise_id: exerciseId,
           sets: exercise.sets,
           reps: exercise.reps,
           weight: exercise.weight,
-          instructions: exercise.instructions || "", 
+          instructions: exercise.instructions || "",
         };
-        
-        console.log("Exercise data: ", exerciseData);
-        
-        await saveWorkoutDetails(exerciseData); // Save workout details with correct structure
+        // Save workout details with correct structure
+        await saveWorkoutDetails(exerciseData);
       }));
-  
+
       Alert.alert('Success', 'Workout session saved successfully!');
       navigation.goBack();
     } catch (error) {
@@ -135,8 +169,10 @@ export default function AddWorkoutScreen({ route }) {
       Alert.alert('Error', 'Failed to save the workout session.');
     }
   };
-  
-  // Discard the workout and go back
+
+  /**
+   * Discard the workout and go back
+   */
   const handleDiscardWorkout = () => {
     Alert.alert('Discard', 'Are you sure you want to discard this workout?', [
       { text: 'Cancel', style: 'cancel' },
@@ -144,7 +180,10 @@ export default function AddWorkoutScreen({ route }) {
     ]);
   };
 
-  // Delete an exercise from the list
+  /**
+   * Delete an exercise from the list in the existing workout session.
+   * @param {Integer} index - Current index of the exercise being deleted. 
+   */
   const handleDeleteExercise = (index) => {
     const updatedExercises = exercises.filter((_, i) => i !== index);
     setExercises(updatedExercises);
@@ -152,7 +191,6 @@ export default function AddWorkoutScreen({ route }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Page Title */}
       <Text style={styles.title}>Add Workout</Text>
 
       {/* Back Button and Date Row */}
@@ -170,7 +208,7 @@ export default function AddWorkoutScreen({ route }) {
           {newExerciseIndexes.includes(index) ? (
             <View style={styles.newExerciseInputContainer}>
               <TextInput
-                style={styles.newExerciseInput} // Matches the sign-in page styling
+                style={styles.newExerciseInput}
                 placeholder="Enter new exercise"
                 value={newExerciseName}
                 onChangeText={setNewExerciseName}
@@ -185,7 +223,7 @@ export default function AddWorkoutScreen({ route }) {
           ) : (
             <Picker
               selectedValue={exercise.name}
-              style={[styles.picker, styles.exerciseInput]} // Match the input field styling
+              style={[styles.picker, styles.exerciseInput]}
               onValueChange={(value) => handleExerciseChange(index, value)}
             >
               {exerciseOptions.map((option, i) => (
@@ -196,7 +234,7 @@ export default function AddWorkoutScreen({ route }) {
 
           {/* Instructions Input */}
           <TextInput
-            style={styles.exerciseInput} // Matches the sign-in page styling
+            style={styles.exerciseInput}
             placeholder="Exercise Instructions"
             value={exercise.instructions}
             onChangeText={(value) => handleInstructionsChange(index, value)}
@@ -235,3 +273,5 @@ export default function AddWorkoutScreen({ route }) {
     </ScrollView>
   );
 };
+
+export default AddWorkoutScreen;

@@ -13,7 +13,7 @@ import { deleteWorkoutSession } from "../api/api";
  * @returns {JSX.Element} - Rendered WorkoutOptions component.
  */
 function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
-  
+
   /**
    * Confirms and deletes the workout session.
    */

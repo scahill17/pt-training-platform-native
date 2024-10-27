@@ -4,8 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import { addAthlete } from "../api/api";
 import styles from "../styles/SignUpScreen.style";
 
-export default function SignUpScreen() {
-  // State management for form inputs
+/**
+ * SignUpScreen component for registering a new user.
+ * Collects user data, validates input, and submits to the database.
+ * @returns {JSX.Element} - Rendered SignUpScreen component.
+ */
+function SignUpScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,10 +17,11 @@ export default function SignUpScreen() {
   const [age, setAge] = useState("");
   const [fitness_goals, setFitnessGoals] = useState("");
   const [medical_conditions, setMedicalConditions] = useState("");
-
   const navigation = useNavigation();
 
-  // Handle Sign-Up logic
+  /**
+   * Validates the form data, ensuring passwords match and submits registration.
+   */
   const handleSignUp = async () => {
     if (password !== confirm_password) {
       Alert.alert("Error", "Passwords don't match");
@@ -32,25 +37,28 @@ export default function SignUpScreen() {
     };
 
     try {
-      console.log("Attempting to sign up user with data:", userData);
-      const response = await addAthlete(userData);
-      console.log("Server response after signing up:", response);
+      await addAthlete(userData);
       Alert.alert("Success", "Sign-up successful. Please log in.");
-      navigation.navigate("Signin");
+      navigation.goBack();
     } catch (error) {
       console.error("Sign-up failed. Error details:", error);
       Alert.alert("Error", "Sign-up failed. Please try again.");
     }
   };
 
-  // Reusable input component to simplify the form structure
-  const renderInputField = (placeholder, value, onChangeText, additionalProps = {}) => (
+  /**
+   * Renders a text input field for the sign-up form.
+   * @param {string} placeholder - Label for the input field.
+   * @param {string} value - Current value of the input field.
+   * @param {Function} onChangeText - Function to handle text changes.
+   * @returns {JSX.Element} - Rendered text input field.
+   */
+  const renderInputField = (placeholder, value, onChangeText) => (
     <TextInput
       style={styles.input}
       placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}
-      {...additionalProps}
     />
   );
 
@@ -68,14 +76,9 @@ export default function SignUpScreen() {
 
         {/* Input Fields */}
         {renderInputField("Name", name, setName)}
-        {renderInputField("Email", email, setEmail, {
-          keyboardType: "email-address",
-          autoCapitalize: "none",
-        })}
+        {renderInputField("Email", email, setEmail, { keyboardType: "email-address", autoCapitalize: "none" })}
         {renderInputField("Password", password, setPassword, { secureTextEntry: true })}
-        {renderInputField("Confirm Password", confirm_password, setConfirmPassword, {
-          secureTextEntry: true,
-        })}
+        {renderInputField("Confirm Password", confirm_password, setConfirmPassword, { secureTextEntry: true })}
         {renderInputField("Age", age, setAge)}
         {renderInputField("Fitness Goals", fitness_goals, setFitnessGoals)}
         {renderInputField("Medical Conditions", medical_conditions, setMedicalConditions)}
@@ -88,3 +91,5 @@ export default function SignUpScreen() {
     </ScrollView>
   );
 }
+
+export default SignUpScreen;

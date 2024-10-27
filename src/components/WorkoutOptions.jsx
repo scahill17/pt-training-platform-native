@@ -12,7 +12,7 @@ import { deleteWorkoutSession } from "../api/api";
  * @param {Function} props.onDelete - Callback function to trigger data refresh on deletion.
  * @returns {JSX.Element} - Rendered WorkoutOptions component.
  */
-export default function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
+function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
   
   /**
    * Confirms and deletes the workout session.
@@ -61,3 +61,5 @@ export default function WorkoutOptions({ onClose, athleteId, date, onDelete }) {
     </Modal>
   );
 }
+
+export default WorkoutOptions;

@@ -19,7 +19,10 @@ import styles from "../styles/MainTabs.style";
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// Create a separate stack navigator for the Training flow
+/**
+ * Stack navigator for the Training flow.
+ * @returns {JSX.Element} - Training stack navigator.
+ */
 function TrainingStack() {
     return (
         <Stack.Navigator>
@@ -30,28 +33,36 @@ function TrainingStack() {
     );
 }
 
-
+/**
+ * Bottom tab navigator for main sections: Home, Profile, Analytics, and Training.
+ * @returns {JSX.Element} - Bottom tab navigator.
+ */
 function MainTabs() {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ focused, color, size }) => {
+                tabBarIcon: ({ focused, size }) => {
                     let iconName;
 
-                    if (route.name === "Home") {
-                        iconName = focused ? "home" : "home-outline";
-                    } else if (route.name === "Profile") {
-                        iconName = focused ? "person" : "person-outline";
-                    } else if (route.name === "Training") {
-                        iconName = focused ? "calendar" : "calendar-outline";
-                    } else if (route.name === "Analytics") {
-                        iconName = focused ? "stats-chart" : "stats-chart-outline";
-                    }
+                    switch (route.name) {
+                        case 'Home':
+                          iconName = focused ? 'home' : 'home-outline';
+                          break;
+                        case 'Profile':
+                          iconName = focused ? 'person' : 'person-outline';
+                          break;
+                        case 'Analytics':
+                          iconName = focused ? 'analytics' : 'analytics-outline';
+                          break;
+                        case 'Training':
+                          iconName = focused ? 'barbell' : 'barbell-outline';
+                          break;
+                        default:
+                          iconName = 'ellipse-outline';
+                      }
 
                     return (
-                        <View
-                            style={focused ? styles.focusedTabContainer : styles.tabContainer}
-                        >
+                        <View style={focused ? styles.focusedTabContainer : styles.tabContainer}>
                             <Ionicons
                                 name={iconName}
                                 size={size}
@@ -62,9 +73,7 @@ function MainTabs() {
                 },
                 tabBarLabel: ({ focused }) => {
                     return (
-                        <Text style={focused ? styles.focusedTabLabel : styles.tabLabel}>
-                            {route.name}
-                        </Text>
+                        <Text style={focused ? styles.focusedTabLabel : styles.tabLabel}>{route.name}</Text>
                     );
                 },
                 tabBarActiveTintColor: styles.focusedTabIcon.color,
@@ -81,6 +90,10 @@ function MainTabs() {
     );
 }
 
+/**
+ * Main app navigator managing authentication flow and main tabs.
+ * @returns {JSX.Element} - Main navigator component.
+ */
 const AppNavigator = () => (
     <NavigationContainer>
         <Stack.Navigator>

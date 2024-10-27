@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { fetchExercises, fetchExercisePerformance } from '../api/api';
+import { useFocusEffect } from '@react-navigation/native';
 import styles from '../styles/ExerciseInsights.style';
 
 const ExerciseInsights = ({ athleteId }) => {
@@ -11,17 +12,13 @@ const ExerciseInsights = ({ athleteId }) => {
   const [performanceData, setPerformanceData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const loadExercises = async () => {
-      try {
-        const exerciseData = await fetchExercises();
-        setExercises(exerciseData);
-      } catch (error) {
-        console.error('Error loading exercises:', error);
-      }
-    };
-
-    loadExercises();
+  const loadExercises = useCallback(async () => {
+    try {
+      const exerciseData = await fetchExercises();
+      setExercises(exerciseData);
+    } catch (error) {
+      console.error('Error loading exercises:', error);
+    }
   }, []);
 
   const loadPerformanceData = useCallback(async () => {
@@ -37,9 +34,12 @@ const ExerciseInsights = ({ athleteId }) => {
     }
   }, [selectedExercise, athleteId]);
 
-  useEffect(() => {
-    loadPerformanceData();
-  }, [loadPerformanceData]);
+  useFocusEffect(
+    useCallback(() => {
+      loadExercises();
+      loadPerformanceData();
+    }, [loadExercises, loadPerformanceData])
+  );
 
   return (
     <View style={styles.container}>

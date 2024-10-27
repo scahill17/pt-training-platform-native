@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
     },
-    motivationalQuote: {
+    quote: {
       fontSize: 14,
       fontStyle: 'italic',
       color: '#888',

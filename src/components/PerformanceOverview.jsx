@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { fetchWorkoutTrends } from '../api/api';
+import { useFocusEffect } from '@react-navigation/native';
 import styles from '../styles/PerformanceOverview.style';
 
 const screenWidth = Dimensions.get('window').width;
@@ -13,33 +14,35 @@ const PerformanceOverview = ({ athleteId }) => {
   const [cumulativeStats, setCumulativeStats] = useState({ totalWeight: 0, averageWeight: 0, averageReps: 0, totalWorkouts: 0 });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadTrends = async () => {
-      try {
-        const trends = await fetchWorkoutTrends(athleteId, 'weekly');
-        const recentTrends = trends.slice(-7); // Only keep the most recent entries
-        setWorkoutTrends(recentTrends);
+  useFocusEffect(
+    useCallback(() => {
+      const loadTrends = async () => {
+        try {
+          const trends = await fetchWorkoutTrends(athleteId, 'weekly');
+          const recentTrends = trends.slice(-7);
+          setWorkoutTrends(recentTrends);
 
-        // Calculate cumulative stats
-        const totalWeight = trends.reduce((sum, trend) => sum + trend.total_weight, 0);
-        const averageWeight = Math.round(trends.reduce((sum, trend) => sum + trend.average_weight, 0) / trends.length);
-        const averageReps = Math.round(trends.reduce((sum, trend) => sum + trend.average_reps, 0) / trends.length);
-        const totalWorkouts = trends.reduce((sum, trend) => sum + trend.total_workouts, 0);
+          // Calculate cumulative stats
+          const totalWeight = trends.reduce((sum, trend) => sum + trend.total_weight, 0);
+          const averageWeight = Math.round(trends.reduce((sum, trend) => sum + trend.average_weight, 0) / trends.length);
+          const averageReps = Math.round(trends.reduce((sum, trend) => sum + trend.average_reps, 0) / trends.length);
+          const totalWorkouts = trends.reduce((sum, trend) => sum + trend.total_workouts, 0);
 
-        setCumulativeStats({
-          totalWeight,
-          averageWeight,
-          averageReps,
-          totalWorkouts,
-        });
-      } catch (error) {
-        console.error('Error loading workout trends:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadTrends();
-  }, [athleteId]);
+          setCumulativeStats({
+            totalWeight,
+            averageWeight,
+            averageReps,
+            totalWorkouts,
+          });
+        } catch (error) {
+          console.error('Error loading workout trends:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadTrends();
+    }, [athleteId])
+  );
 
   const handleStatChange = (stat) => {
     setSelectedStat(stat);
@@ -52,7 +55,7 @@ const PerformanceOverview = ({ athleteId }) => {
     datasets: [
       {
         data: workoutTrends.map(trend => Math.round(trend[selectedStat])),
-        color: () => `#F2AE30`, // Set to orange for all graph types
+        color: () => `#F2AE30`,
         strokeWidth: 2,
       },
     ],
@@ -63,7 +66,6 @@ const PerformanceOverview = ({ athleteId }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.headerText}>Performance Overview</Text>
 
-      {/* Cumulative Stats Section */}
       <View style={styles.cumulativeStatsContainer}>
         <View style={styles.statBox}>
           <Text style={styles.statLabel}>Total Workouts Done</Text>
@@ -83,14 +85,13 @@ const PerformanceOverview = ({ athleteId }) => {
         </View>
       </View>
 
-      {/* Graph Section */}
       {loading ? (
         <Text>Loading workout trends...</Text>
       ) : (
         <View style={styles.chartContainer}>
           <LineChart
             data={formattedData}
-            width={screenWidth - 40}
+            width={screenWidth - 80}
             height={chartHeight}
             yAxisSuffix={selectedStat === 'average_reps' ? '' : ' kg'}
             yAxisInterval={1}
@@ -111,7 +112,6 @@ const PerformanceOverview = ({ athleteId }) => {
         </View>
       )}
 
-      {/* Stat Type Selector */}
       <View style={styles.statToggleContainer}>
         <TouchableOpacity
           onPress={() => handleStatChange('average_weight')}

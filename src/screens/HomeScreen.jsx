@@ -10,8 +10,8 @@ const HomeScreen = () => {
     <ScrollView contentContainerStyle={styles.container}>
       {/* Logo and Welcome Section */}
       <Image source={require('../../assets/logo.png')} style={styles.logo} />
-      <Text style={styles.welcomeText}>Welcome to Your Training Hub</Text>
-      <Text style={styles.subText}>Stay on top of your progress and reach your fitness goals!</Text>
+      <Text style={styles.welcomeText}>Welcome to Progression</Text>
+      <Text style={styles.subText}>Stay on top of your progress and reach your fitness goals with your own personal training hub!</Text>
 
       {/* Navigation Buttons */}
       <View style={styles.buttonContainer}>
@@ -36,7 +36,7 @@ const HomeScreen = () => {
       </View>
 
       {/* Motivational Quote */}
-      <Text style={styles.motivationalQuote}>
+      <Text style={styles.quote}>
         "The only bad workout is the one you didn't do. Keep pushing forward!"
       </Text>
     </ScrollView>

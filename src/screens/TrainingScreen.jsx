@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 import CustomCalendar from "../components/CustomCalendar";
 import styles from "../styles/TrainingScreen.style";
 import { Ionicons } from "@expo/vector-icons";
 import { fetchWorkoutSessionDetails, fetchCurrentWorkoutSession } from "../api/api";
 import WorkoutOptions from "../components/WorkoutOptions";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function TrainingScreen() {
@@ -17,13 +17,12 @@ export default function TrainingScreen() {
   const [athleteId, setAthleteId] = useState(null);
   const navigation = useNavigation();
 
-  // Fetch athleteId from AsyncStorage
   useEffect(() => {
     const loadAthleteId = async () => {
       try {
-        const storedAthleteId = await AsyncStorage.getItem("athleteId"); // Retrieve athleteId from storage
+        const storedAthleteId = await AsyncStorage.getItem("athleteId");
         if (storedAthleteId) {
-          setAthleteId(storedAthleteId); // Set athleteId in state
+          setAthleteId(storedAthleteId);
         } else {
           Alert.alert("Error", "Athlete ID not found. Please sign in again.");
           navigation.replace("Signin");
@@ -32,39 +31,32 @@ export default function TrainingScreen() {
         console.error("Error loading athlete ID:", error);
       }
     };
-
     loadAthleteId();
   }, []);
 
-  // Fetch workout session for the selected date when athleteId is available
-  useEffect(() => {
-    const loadWorkoutSession = async () => {
-      if (!athleteId) return;
-
-      try {
-        setIsLoading(true);
-        const currentSession = await fetchCurrentWorkoutSession(athleteId, selectedDate);
-        setSession(currentSession);
-        console.log("current session: ", session);
-        const sessionDetails = await fetchWorkoutSessionDetails(athleteId, selectedDate);
-        if (sessionDetails) {
-          setWorkoutSession(sessionDetails); // If workout session exists, update state
-        } else {
-          setWorkoutSession(null); // If no workout session exists, clear the previous session
+  useFocusEffect(
+    useCallback(() => {
+      const loadWorkoutSession = async () => {
+        if (!athleteId) return;
+        try {
+          setIsLoading(true);
+          const currentSession = await fetchCurrentWorkoutSession(athleteId, selectedDate);
+          setSession(currentSession);
+          const sessionDetails = await fetchWorkoutSessionDetails(athleteId, selectedDate);
+          setWorkoutSession(sessionDetails || null);
+        } catch (error) {
+          console.error("Error fetching workout session:", error);
+          setWorkoutSession(null);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error("Error fetching workout session:", error);
-        setWorkoutSession(null); // Clear session on error as well
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadWorkoutSession();
-  }, [athleteId, selectedDate]);
+      };
+      loadWorkoutSession();
+    }, [athleteId, selectedDate])
+  );
 
   const handleShowOptions = () => {
-    setIsOptionsVisible(true); // Show the WorkoutOptions component
+    setIsOptionsVisible(true);
   };
 
   const handleAddWorkout = () => {
@@ -72,9 +64,8 @@ export default function TrainingScreen() {
   };
 
   const handleDeleteAndRefresh = () => {
-    setIsOptionsVisible(false); // Close the modal
-    setWorkoutSession(null); // Reset workout session data
-    // Trigger data reload (by setting date or athleteId again if needed)
+    setIsOptionsVisible(false);
+    setWorkoutSession(null);
     Alert.alert("Success", "Workout session deleted successfully.");
   };
 
@@ -85,13 +76,9 @@ export default function TrainingScreen() {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        {/* Page Title */}
         <Text style={styles.title}>Training</Text>
-
-        {/* Custom Week Calendar */}
         <CustomCalendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
 
-        {/* Workout Session Header with ellipsis */}
         <View style={styles.workoutSessionHeader}>
           <Text style={styles.workoutSessionText}>Workout Session</Text>
           <TouchableOpacity onPress={handleShowOptions} style={styles.ellipsisButton}>
@@ -99,7 +86,6 @@ export default function TrainingScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Conditional Start/Add Session Button */}
         {workoutSession ? (
           session[0] && session[0].completed === "Y" ? (
             <View style={styles.sessionCompletedContainer}>
@@ -116,8 +102,6 @@ export default function TrainingScreen() {
           </TouchableOpacity>
         )}
 
-
-        {/* Workout Options Modal */}
         {isOptionsVisible && (
           <WorkoutOptions
             onClose={() => setIsOptionsVisible(false)}
@@ -127,7 +111,6 @@ export default function TrainingScreen() {
           />
         )}
 
-        {/* Workout Session Content */}
         <View style={styles.workoutContent}>
           {isLoading ? (
             <Text>Loading workout session...</Text>
@@ -135,17 +118,12 @@ export default function TrainingScreen() {
             <View>
               {workoutSession.exercises.map((exercise, index) => (
                 <View key={index} style={styles.exerciseContainer}>
-                  {/* Exercise Title */}
                   <Text style={styles.exerciseTitle}>{exercise.name}</Text>
-
-                  {/* Conditionally render exercise instructions if available */}
                   {exercise.instructions && exercise.instructions.trim() !== "" && (
                     <Text style={styles.exerciseInstructions}>
                       Instructions: {exercise.instructions}
                     </Text>
                   )}
-
-                  {/* Exercise Details */}
                   <Text style={styles.exerciseDetails}>
                     {exercise.sets} sets of {exercise.reps.join(", ")} reps at {exercise.weight.join(", ")} kg
                   </Text>
@@ -157,7 +135,6 @@ export default function TrainingScreen() {
           )}
         </View>
 
-        {/* Add Workout Button */}
         <TouchableOpacity style={styles.addWorkoutButton} onPress={handleAddWorkout}>
           <Ionicons name="add-circle" size={56} color="#F2AE30" />
         </TouchableOpacity>

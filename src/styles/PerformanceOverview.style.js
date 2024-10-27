@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: '#f9f9f9',
-    alignItems: 'center', // Center-aligns content within the container
-    width: '100%', // Ensures the container uses full available width
-    maxWidth: 350, // Constrains width for consistent centering on larger screens
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: 350,
     marginHorizontal: 'auto',
   },
   headerText: {
@@ -21,7 +21,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     marginBottom: 20,
-    width: '100%', // Makes sure stat boxes take up full width for alignment
+    width: '100%',
   },
   statBox: {
     backgroundColor: '#fff',
@@ -33,7 +33,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 3,
-    width: '48%', // Ensures two boxes per row with spacing
+    width: '48%',
     marginBottom: 10,
   },
   statLabel: {
@@ -56,7 +56,7 @@ export default StyleSheet.create({
   },
   statToggleContainer: {
     marginTop: 20,
-    width: '100%', // Align the buttons to the full width
+    width: '100%',
   },
   statButton: {
     backgroundColor: '#e0e0e0',
@@ -78,3 +78,5 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default styles;

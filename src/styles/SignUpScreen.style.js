@@ -8,18 +8,15 @@ const styles = StyleSheet.create({
     paddingTop: 100,
     backgroundColor: "#fff",
   },
-
   backButton: {
     position: "absolute",
     top: 80,
     left: 20,
   },
-
   backButtonText: {
     fontSize: 24,
     color: "#000",
   },
-
   title: {
     fontSize: 28,
     fontWeight: "bold",
@@ -27,15 +24,13 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginTop: 40,
   },
-
   subTitle: {
     fontSize: 16,
     color: "#000",
     fontWeight: "bold",
-    marginBottom: 20, 
+    marginBottom: 20,
     marginTop: 20,
   },
-
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -51,17 +46,15 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
   },
-
   button: {
     backgroundColor: "#F2AE30",
     borderRadius: 30,
     paddingVertical: 15,
     justifyContent: "center",
-    alignItems: "center", 
+    alignItems: "center",
     marginTop: 30,
     marginBottom: 30,
   },
-
   buttonText: {
     color: "white",
     fontSize: 16,

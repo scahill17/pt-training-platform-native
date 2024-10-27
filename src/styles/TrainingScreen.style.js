@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#fff",
   }
-
 });
 
 export default styles;

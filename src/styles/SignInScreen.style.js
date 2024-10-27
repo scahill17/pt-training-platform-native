@@ -7,11 +7,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#FFF',
   },
-
   body: {
-    alignItems: "center", 
-    flexGrow: 1, 
-    justifyContent: "flex-end", 
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "flex-end",
     paddingBottom: 20,
   },
   title: {
@@ -30,63 +29,56 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 15,
-    shadowColor: "#000", 
+    shadowColor: "#000",
     shadowOffset: {
-      width: 1,  
-      height: 3, 
+      width: 1,
+      height: 3,
     },
-    shadowOpacity: 0.25,   
-    shadowRadius: 3.84,    
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
-
   button: {
     backgroundColor: "#F2AE30",
     padding: 15,
     borderRadius: 15,
     marginTop: 10,
     width: "80%",
-    shadowColor: "#000", 
+    shadowColor: "#000",
     shadowOffset: {
-      width: 1,  
-      height: 3, 
+      width: 1,
+      height: 3,
     },
-    shadowOpacity: 0.25,   
-    shadowRadius: 3.84,    
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
-
   buttonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
-
   bottomText: {
     fontSize: 12,
     padding: 10,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#666", 
+    color: "#666",
   },
-
   linkButton: {
     marginTop: 10,
   },
-
   linkText: {
-    color: "#D9952D", 
+    color: "#D9952D",
     fontWeight: "bold",
   },
-
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-
   modalContent: {
     width: '80%',
     backgroundColor: "white",
@@ -94,19 +86,17 @@ const styles = StyleSheet.create({
     padding: 25,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 }, 
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 10,
   },
-
   modalText: {
     fontSize: 16,
     color: "#333",
     textAlign: 'center',
     marginBottom: 20,
   },
-
   closeButton: {
     backgroundColor: "#F2AE30",
     padding: 12,
@@ -114,16 +104,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "60%",
     alignItems: "center",
-    shadowColor: "#000", 
+    shadowColor: "#000",
     shadowOffset: {
-      width: 1,  
-      height: 3, 
+      width: 1,
+      height: 3,
     },
-    shadowOpacity: 0.25,   
-    shadowRadius: 3.84,    
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     elevation: 5,
   },
-
   closeButtonText: {
     color: "white",
     fontWeight: "bold",

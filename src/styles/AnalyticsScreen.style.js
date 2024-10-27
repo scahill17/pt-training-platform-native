@@ -1,19 +1,18 @@
-// src/styles/AnalyticsScreen.style.js
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: '#fafafa',
     flexGrow: 1,
-    width: '100%',  // Ensure the container spans the full width
+    width: '100%',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'center',
-    marginTop: 50, // Positions title further down
+    marginTop: 50,
     marginBottom: 30,
   },
   errorText: {
@@ -25,8 +24,8 @@ export default StyleSheet.create({
   toggleContainer: {
     flexDirection: 'row',
     marginBottom: 20,
-    width: '100%',  // Spreads buttons across screen width
-    justifyContent: 'space-around', // Adds even spacing between buttons
+    width: '100%',
+    justifyContent: 'space-around',
     paddingHorizontal: 10,
   },
   toggleButton: {
@@ -46,3 +45,5 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+export default styles;
